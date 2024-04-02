@@ -50,3 +50,11 @@ h1 {
     text-align:center;
 }
 
+.wrapper{
+    margin: 0 auto;
+}
+
+.mini-text{
+    font-size: 100%;
+}
+
