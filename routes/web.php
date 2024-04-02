@@ -28,8 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::post('/products/create', [ProductsController::class, 'create']);
-Route::get('/products', [ProductsController::class, 'index']);
+Route::get('/products/create', [ProductsController::class, 'create'])->name('product.create');;
+Route::get('/products', [ProductsController::class, 'index'])->name('product.index');
+Route::post('/products', [ProductsController::class, 'store'])->name('product.store');
 Route::get('/admin',function(){
     return view('admin.index');
 });

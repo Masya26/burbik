@@ -30,22 +30,44 @@
 <body>
 
 <h1>Мои товары</h1>
-
-<ul class="products-list">
-    <!-- Пример товара 1 -->
-    <li class="product">
-        <div class="product-name">Телевизор Samsung</div>
-        <div class="product-title">Full HD, 42 дюйма, Smart TV</div>
-        <div class="product-price">15 000 руб.</div>
-    </li>
-    <!-- Пример товара 2 -->
-    <li class="product">
-        <div class="product-name">Ноутбук Lenovo</div>
-        <div class="product-title">i7, 8 ГБ RAM, SSD 512 ГБ</div>
-        <div class="product-price">50 000 руб.</div>
-    </li>
-    <!-- Добавьте больше товаров по аналогии -->
-</ul>
-
+@foreach ($products as $product)
+    <ul class="products-list">
+        <!-- Пример товара 1 -->
+        <tr>
+            <td>
+                {{ $product['id'] }}
+            </td>
+            <td>
+                {{ $product['name'] }}
+            </td>
+            <td>
+                {{ $product['title'] }}
+            </td>
+            <td>
+                <p><img style="width:100px; height:100px;"
+                        src="{{ Storage::url('images/post/origin/' . $product->product_image) }}"
+                        alt=""></p>
+            </td>
+            <td>
+                {{ $product['created_at'] }}
+            </td>
+            {{-- <td lass="project-actions text-right">
+                <a class="btn btn-info btn-sm" href="{{ route('$product.edit', [$product->id]) }}">
+                    <i class="fas fa-pencil-alt">
+                    </i>
+                    Редактировать
+                </a>
+                {{-- <form style="display:inline-block" method="POST"
+                    action={{ route('$product.destroy', [$product->id]) }}>
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
+                        data-bs-placement="right" title="Удалить"><i
+                            class="fa-solid fa-trash-can"></i></button>
+                </form> --}}
+            </td> --}}
+        </tr>
+    </ul>
+@endforeach
 </body>
 </html>

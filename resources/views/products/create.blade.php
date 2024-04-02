@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form method="post" action="/products" enctype="multipart/form-data">
+<form action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST" >
     @csrf
 
     <!-- Поле для названия товара -->
@@ -25,14 +25,14 @@
 
     <!-- Поле для описания товара -->
     <div class="form-group">
-        <label for="description">Описание</label>
-        <textarea class="form-control" id="description" name="description"></textarea>
+        <label for="title">Описание</label>
+        <textarea class="form-control" id="title" name="title"></textarea>
     </div>
 
     <!-- Поле для загрузки изображения товара -->
     <div class="form-group">
         <label for="image">Изображение</label>
-        <input type="file" class="form-control-file" id="image" name="image">
+        <input type="file" class="form-control-file" id="product_image" name="product_image">
     </div>
 
     <!-- Поле для цены товара -->
