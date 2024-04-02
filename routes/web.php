@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/shop',function(){
-    return view('shop.index');
-});
+Route::post('/products/create', [ProductsController::class, 'create']);
+Route::get('/products', [ProductsController::class, 'index']);
 Route::get('/admin',function(){
     return view('admin.index');
 });

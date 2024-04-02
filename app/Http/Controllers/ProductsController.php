@@ -12,7 +12,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = Products::all();
+        return view('products.index');
     }
 
     /**
@@ -20,7 +21,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -28,7 +29,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
