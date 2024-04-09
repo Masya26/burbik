@@ -13,10 +13,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::get();
-
+        $products = Products::all();
         return view('products.index', [
-            'products' => $products->reverse(),
+            'products' => $products->reverse()
         ]);
     }
 
@@ -44,16 +43,16 @@ class ProductsController extends Controller
         // Проверка, был ли загружен файл изображения
         if ($request->hasFile('product_image')) {
             $filename = $request->file('product_image')->getClientOriginalName();
-            $request->file('product_image')->move(public_path('/uploads/products'), $filename);
+            $request->file('product_image')->move(public_path('/public/images/product'), $filename);
             $validatedData['product_image'] = $filename;
         }
 
         // Сохранение данных в базу данных
-        $product = Products::create($validatedData);
-
+        $products = Products::create($validatedData);
         // Перенаправление на страницу списка товаров с сообщением об успехе
-        return redirect()->route('products.index')
+        return view('products.index')
                         ->with('status', 'Товар успешно добавлен');
+
     }
 
     /**
