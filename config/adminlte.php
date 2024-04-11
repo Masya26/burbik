@@ -311,8 +311,8 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
+            'text' => 'Продукты',
+            'url' => 'products',
             'can' => 'manage-blog',
         ],
         [
@@ -491,6 +491,21 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'bootstrapSlider ' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-slider/css/bootstrap-slider.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-slider/bootstrap-slider.js',
                 ],
             ],
         ],

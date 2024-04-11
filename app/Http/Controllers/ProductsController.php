@@ -43,7 +43,7 @@ class ProductsController extends Controller
         // Проверка, был ли загружен файл изображения
         if ($request->hasFile('product_image')) {
             $filename = $request->file('product_image')->getClientOriginalName();
-            $request->file('product_image')->move(public_path('/public/images/product'), $filename);
+            $request->file('product_image')->move(public_path('images/product/'), $filename);
             $validatedData['product_image'] = $filename;
         }
 

@@ -30,6 +30,7 @@
 <body>
 
 <h1>Мои товары</h1>
+@if(isset($products))
 @foreach ($products as $product)
     <ul class="products-list">
         <!-- Пример товара 1 -->
@@ -45,29 +46,15 @@
             </td>
             <td>
                 <p><img style="width:100px; height:100px;"
-                        src="{{ Storage::url('images/post/origin/' . $product->product_image) }}"
+                        src="{{ 'images/product/' . $product->product_image }}"
                         alt=""></p>
             </td>
             <td>
                 {{ $product['created_at'] }}
             </td>
-            {{-- <td lass="project-actions text-right">
-                <a class="btn btn-info btn-sm" href="{{ route('$product.edit', [$product->id]) }}">
-                    <i class="fas fa-pencil-alt">
-                    </i>
-                    Редактировать
-                </a>
-                {{-- <form style="display:inline-block" method="POST"
-                    action={{ route('$product.destroy', [$product->id]) }}>
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
-                        data-bs-placement="right" title="Удалить"><i
-                            class="fa-solid fa-trash-can"></i></button>
-                </form> --}}
-            </td> --}}
         </tr>
     </ul>
 @endforeach
+@endif
 </body>
 </html>

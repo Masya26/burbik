@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST" >
+<form action="{{ route('products.store') }}" enctype="multipart/form-data" method="POST" >
     @csrf
 
     <!-- Поле для названия товара -->
