@@ -12,8 +12,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <link rel="stylesheet" href="css/styles.css">
     </head>
-    <body>
-        <div style="margin: 0 15%;">
+    <body style="" class="bg-danger">
+        <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
             {{-- Шапка --}}
             <div class="border-bottom pb-2 div-logo">
                 <img src="images\logo.png" style="max-width: 15%;" >
