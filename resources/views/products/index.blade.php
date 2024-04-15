@@ -34,6 +34,7 @@
         table {
             background: maroon;
             color: white;
+            padding: 10px 10px 10px 10px;
         }
     </style>
 </head>

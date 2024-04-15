@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Админка',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -322,14 +322,14 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'Товары'],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
+            'text' => 'Продукты',
+            'url' => 'resources/products/index',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
+            'text' => 'Категории',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
