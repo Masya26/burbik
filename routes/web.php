@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');;
-Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+Route::get('/', [ProductsController::class, 'index'])->name('welcome');
 Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 Route::get('/admin',Admincontroller::class);
 require __DIR__.'/auth.php';

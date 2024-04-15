@@ -57,4 +57,32 @@ h1 {
 .mini-text{
     font-size: 100%;
 }
+.products-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
+.product {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-title {
+    margin-top: 5px;
+}
+
+.product-price {
+    font-weight: bold;
+}
+
+table {
+    background: maroon;
+    color: white;
+    padding: 10px 10px 10px 10px;
+}
