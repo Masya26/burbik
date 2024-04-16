@@ -53,6 +53,7 @@
 
         <p style="display: none;">{{ $count = 0 }}</p>
         <table>
+
             @if (isset($products))
                 @foreach ($products as $product)
                     @if ($count <= 2)
@@ -72,16 +73,19 @@
                         <td>
                             {{ $product['title'] }}
                         </td>
+                        <td>
+                            {{ $product['price'] }}
+                        </td>
                         </td>
 
                         <p style="display: none;">{{ $count = $count + 1 }}</p>
-                    @else($count = 3)
+                    @else<p style="display: none;">{{($count = 3)}}</p>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="3">
                                 <br>
                             </td>
                         </tr>
-                        {{ $count = 0 }}
+                        <p style="display: none;">{{ $count = 0 }}</p>
                     @endif
                 @endforeach
 

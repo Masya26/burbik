@@ -13,7 +13,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
+
         $products = Products::all();
+
         return view('welcome', [
             'products' => $products->reverse()
         ]);
@@ -50,7 +52,7 @@ class ProductsController extends Controller
         // Сохранение данных в базу данных
         $products = Products::create($validatedData);
         // Перенаправление на страницу списка товаров с сообщением об успехе
-        return view('welcome');
+        return redirect('/');
 
 
     }
