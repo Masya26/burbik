@@ -40,7 +40,7 @@
         <!-- Поле для цены товара -->
         <div class="form-group">
             <label for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" required>
+            <input type="number" step="any" class="form-control" id="price" name="price" required>
         </div>
 
         <!-- Кнопка отправки формы -->

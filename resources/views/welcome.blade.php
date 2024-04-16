@@ -15,20 +15,26 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body style="" class="bg-danger">
+<body>
     <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
-        {{-- Шапка --}}
-        <div class="border-bottom pb-2 div-logo">
-            <img src="images\logo.png" style="max-width: 15%;">
-        </div>
-        {{-- Основная часть --}}
-        <div style="display:grid; grid-template-columns: 20% 70% 10%;" class="border-bottom pt-2 pb-2">
-            <div style="width: 100%">
-                <span class="badge fw-bold pt-2 button-catalog mini-text" style="width: 100%;"> Каталог товаров
-                    <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px; left:2px;"></i>
-                </span>
+        <div style="display:grid; grid-template-columns: 25% 20% 40% 15%;" class="border-bottom pt-2 pb-2">
+            <div class="pb-2 logo-block">
+                <img src="images\logo.png" style="max-width: 55%;">
             </div>
-            <div class="px-2" style="width: 100%;">
+            <div class="dropdown-flex-block">
+                <div class="dropdown">
+                    <span class="badge fw-bold button-catalog" style="width: 100%;"> Категории товаров
+                        <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px; left:2px;"></i>
+                    </span>
+                    <div class="dropdown-block">
+                        <a href="#">Овощи и фрукты</a> <br>
+                        <a href="#">Хлеб и выпечка</a> <br>
+                        <a href="#">Мясо и курица</a> <br>
+                        <a href="#">Молочная продукция</a>
+                    </div>
+                </div>
+            </div>
+            <div class="search-form-block" style="width: 100%;">
                 <form action="" method="get" class="search-form border pt-2">
                     <div style="display:flex; justify-content: space-between; padding:0 5px 0 5px;">
                         <input name="s" placeholder="Введите название товара" type="search"
@@ -39,56 +45,59 @@
                     </div>
                 </form>
             </div>
-            <div class="border-start px-2" style="width: 100%">
+            <div class="basket-block">
                 <a>
-                    <i class="bi bi-basket2 fs-4" style="color: rgb(11, 178, 255)"></i>
-                    <span class="fw-bold mini-text"
-                        style="color: rgb(11, 178, 255); font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; width: auto; height: 40px; text-align:center;">
-                        0.00Р
+                    <span class="badge mini-text basket-button fw-bold">
+                    <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
+                        Корзина
                     </span>
                 </a>
             </div>
         </div>
-        <h1>Мои товары</h1>
+        {{-- Товары --}}
+            <div style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
+            <p style="display: none;">{{ $count = 0 }}</p>
+                @if (isset($products))
+                    @foreach ($products as $product)
+                        @if ($count <= 4)
+                            <!-- Пример товара 1 -->
+                            <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
+                                <div style="text-align:center">
+                                    <img style="width:150px; height:150px;"
+                                        src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                                </div>
 
-        <p style="display: none;">{{ $count = 0 }}</p>
-        <table>
-            @if (isset($products))
-                @foreach ($products as $product)
-                    @if ($count <= 2)
-                        <!-- Пример товара 1 -->
-
-                        <td>
-                        <td>
-                            <p><img style="width:100px; height:100px;"
-                                    src="{{ 'images/product/' . $product->product_image }}" alt=""></p>
-
-                        </td>
-
-                        <td>
-                            {{ $product['name'] }}
-
-                        </td>
-                        <td>
-                            {{ $product['title'] }}
-                        </td>
-                        </td>
-
-                        <p style="display: none;">{{ $count = $count + 1 }}</p>
-                    @else($count = 3)
-                        <tr>
-                            <td colspan="5">
-                                <br>
-                            </td>
-                        </tr>
-                        {{ $count = 0 }}
-                    @endif
-                @endforeach
-
-
-
-            @endif
-        </table>
+                                <div class="products-text-block">
+                                    <div>
+                                        <div class="products-name">
+                                            {{ $product['name'] }} <br>
+                                        </div>
+                                        <div class="products-title">
+                                            {{ $product['title'] }} <br>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <button class="to-basket-button">
+                                                <div class="products-price">
+                                                    {{ $product['price'] }} ₽
+                                                </div>
+                                                <div class="v-korzinu">
+                                                    В корзину
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="display: none;">{{ $count = $count + 1 }}</p>
+                        @else($count = 3)
+                            <br>
+                            <p style="display: none;">{{ $count = 0 }}</p>
+                        @endif
+                    @endforeach
+                @endif
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
