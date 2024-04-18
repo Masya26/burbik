@@ -26,6 +26,7 @@
                     <span class="badge fw-bold button-catalog" style="width: 100%;"> Категории товаров
                         <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px; left:2px;"></i>
                     </span>
+
                     <div class="dropdown-block">
                         <a href="#">Овощи и фрукты</a> <br>
                         <a href="#">Хлеб и выпечка</a> <br>
@@ -48,60 +49,64 @@
             <div class="basket-block">
                 <a>
                     <span class="badge mini-text basket-button fw-bold">
-                    <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
+                        <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
                         Корзина
                     </span>
                 </a>
             </div>
         </div>
-        {{-- Товары --}}
-            <div style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
-            <p style="display: none;">{{ $count = 0 }}</p>
-                @if (isset($products))
-                    @foreach ($products as $product)
-                        @if ($count <= 4)
-                            <!-- Пример товара 1 -->
-                            <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
-                                <div style="text-align:center">
-                                    <img style="width:150px; height:150px;"
-                                        src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
-                                </div>
 
-                                <div class="products-text-block">
-                                    <div>
-                                        <div class="products-name">
-                                            {{ $product['name'] }} <br>
-                                        </div>
-                                        <div class="products-title">
-                                            {{ $product['title'] }} <br>
-                                        </div>
+        {{-- Товары --}}
+        <div style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
+            <p style="display: none;">{{ $count = 0 }}</p>
+           
+
+            @if (isset($products))
+                @foreach ($products as $product)
+                    @if ($count <= 4)
+                        <!-- Пример товара 1 -->
+                        <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
+                            <div style="text-align:center">
+                                <img style="width:150px; height:150px;"
+                                    src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                            </div>
+
+                            <div class="products-text-block">
+                                <div>
+                                    <div class="products-name">
+                                        {{ $product['name'] }} <br>
                                     </div>
+                                    <div class="products-title">
+                                        {{ $product['title'] }} <br>
+                                    </div>
+                                </div>
+                                <div>
                                     <div>
-                                        <div>
-                                            <button class="to-basket-button">
-                                                <div class="products-price">
-                                                    {{ $product['price'] }} ₽
-                                                </div>
-                                                <div class="v-korzinu">
-                                                    В корзину
-                                                </div>
-                                            </button>
-                                        </div>
+                                        <button class="to-basket-button">
+                                            <div class="products-price">
+                                                {{ $product['price'] }} ₽
+                                            </div>
+                                            <div class="v-korzinu">
+                                                В корзину
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <p style="display: none;">{{ $count = $count + 1 }}</p>
-                        @else($count = 3)
-                            <br>
-                            <p style="display: none;">{{ $count = 0 }}</p>
-                        @endif
-                    @endforeach
-                @endif
+                        </div>
+                        <p style="display: none;">{{ $count = $count + 1 }}</p>
+                    @else($count = 3)
+                        <br>
+                        <p style="display: none;">{{ $count = 0 }}</p>
+                    @endif
+                @endforeach
+            @endif
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
+
 </body>
 
 </html>

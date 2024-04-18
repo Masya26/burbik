@@ -34,13 +34,14 @@ Route::middleware('auth')->group(function () {
 
 // Для категорий
 Route::group(['prefix' => 'category'], function () {
+    Route::get('/', [CategoryController::class, 'welcome'])->name('admin.category.index');
     Route::get('/', [CategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/create', [CategoryController::class, 'create'])->name('admin.category.create');
     Route::post('/', [CategoryController::class, 'store'])->name('admin.category.store');
     Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
     Route::get('/{category}', [CategoryController::class, 'show'])->name('admin.category.show');
     Route::patch('/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
-    Route::delete('/{category}', [CategoryController::class, 'delete'])->name('admin.category.delete');
+    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 });
 
 // Для продуктов
