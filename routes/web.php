@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
 
 // Для категорий
 Route::group(['prefix' => 'category'], function () {
-    Route::get('/', [CategoryController::class, 'welcome'])->name('admin.category.index');
     Route::get('/', [CategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/create', [CategoryController::class, 'create'])->name('admin.category.create');
     Route::post('/', [CategoryController::class, 'store'])->name('admin.category.store');

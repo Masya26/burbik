@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,4 +18,7 @@ class Admincontroller extends Controller
             'user_count' => $user_count,
         ]);
     }
+
+
+
 }
