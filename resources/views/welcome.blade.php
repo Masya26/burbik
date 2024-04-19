@@ -28,10 +28,12 @@
                     </span>
 
                     <div class="dropdown-block">
-                        <a href="#">Овощи и фрукты</a> <br>
-                        <a href="#">Хлеб и выпечка</a> <br>
-                        <a href="#">Мясо и курица</a> <br>
-                        <a href="#">Молочная продукция</a>
+                        @if (isset($categories))
+                        @foreach ($categories as $category)
+                        <a href="/">{{ $category->title }}</a>
+                        <br>
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -59,7 +61,7 @@
         {{-- Товары --}}
         <div style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
             <p style="display: none;">{{ $count = 0 }}</p>
-           
+
 
             @if (isset($products))
                 @foreach ($products as $product)
