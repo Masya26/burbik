@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Маяк</title>
     {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
     {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,9 +17,11 @@
 
 <body>
     <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
-        <div style="display:grid; grid-template-columns: 25% 20% 40% 15%;" class="border-bottom pt-2 pb-2">
+        <div style="display:grid; grid-template-columns: 10% 20% 40% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
-                <img src="images\logo.png" style="max-width: 55%;">
+                <a href="/">
+                    <img src="images\logo.png" style="max-width: 100%;">
+                </a>
             </div>
             <div class="dropdown-flex-block">
                 <div class="dropdown">
@@ -49,7 +51,7 @@
                 </form>
             </div>
             <div class="basket-block">
-                <a>
+                <a href="/korzina">
                     <span class="badge mini-text basket-button fw-bold">
                         <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
                         Корзина
