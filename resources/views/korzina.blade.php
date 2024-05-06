@@ -119,9 +119,9 @@
                 </a>
             </div>
             <div class="person-block">
-                @if(auth()->check())
+                @if (auth()->check())
                     <a href="/profile">
-                        <div class="username-block" >
+                        <div class="username-block">
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
                                 {{ auth()->user()->name }}
@@ -139,8 +139,8 @@
                 @endif
             </div>
         </div>
-        <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 3%; width:100%">
-            <div style="display:grid; grid-template-columns: auto auto auto; padding-top: 3%; width:100%">
+        <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 1%; width:100%">
+            <div style="display:grid; grid-template-columns: auto auto auto; width:100%">
                 <p style="display: none;">{{ $count = 0 }}</p>
                 @if (isset($products))
                     @foreach ($products as $product)
@@ -149,7 +149,7 @@
                             <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
                                 <div style="text-align:center">
                                     <img style="width:150px; height:150px; border-radius: 5px;"
-                                        src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                                        src="{{ 'images/product/' . $product->product_image }}" alt="">
                                 </div>
 
                                 <div class="products-text-block">
@@ -161,26 +161,28 @@
                                             {{ $product['title'] }} <br>
                                         </div>
                                         <div class="products-price"> <!-- Добавляем класс .products-price -->
-                                            Цена: {{ $product['price'] }}₽ <br>
+                                            Цена: {{ $product['price'] }}₽
                                         </div>
                                     </div>
-                                    <div>
-                                        <div>
-                                            <button type="button"
-                                                onclick="updateQuantity({{ $product->id }}, 'decrease')">-</button>
+                                    <div class="d-flex justify-content-between" style="width: 210px; height:35px; background-color: rgb(80, 200, 255); border-radius: 5px;">
+                                        <div class="d-flex align-items-center">
+                                            <button type="button" style="border: none; border-radius: 5px; background-color: rgb(80, 200, 255);"
+                                                onclick="updateQuantity({{ $product->id }}, 'decrease')">—</button>
                                             <!-- Элемент <span> для отображения количества товара с правильным идентификатором -->
+                                        </div>
                                             <span class="products-quantity"
                                                 id="quantity-{{ $product->id }}">{{ $product->pivot->quantity }}</span>
-                                            <button type="button"
+                                        <div class="d-flex align-items-center">
+                                            <button type="button" style="border: none; border-radius: 5px; background-color: rgb(80, 200, 255);"
                                                 onclick="updateQuantity({{ $product->id }}, 'increase')">+</button>
                                         </div>
-
                                     </div>
                                 </div>
-                                <p style="display: none;">{{ $count = $count + 1 }}</p>
-                            @else($count = 2)
-                                <br>
-                                <p style="display: none;">{{ $count = 0 }}</p>
+                            </div>
+                            <p style="display: none;">{{ $count = $count + 1 }}</p>
+                        @else($count = 2)
+                            <br>
+                            <p style="display: none;">{{ $count = 0 }}</p>
                         @endif
                     @endforeach
                 @endif
@@ -205,7 +207,8 @@
                         <div class="pt-2 pb-2">
                             <form action="" method="get" class="search-form border">
                                 <div style="display:flex; justify-content: space-between;">
-                                    <input name="s" placeholder="Введите адрес доставки" type="search" class="search-input mini-text">
+                                    <input name="s" placeholder="Введите адрес доставки" type="search"
+                                        class="search-input mini-text">
                                 </div>
                             </form>
                         </div>
@@ -226,36 +229,34 @@
                 </dialog>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-    </script>
-    <script>
-        const ADdialog = document.getElementById('ADDialog');
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+        </script>
+        <script>
+            const ADdialog = document.getElementById('ADDialog');
 
-        function openADDialog() {
-            ADdialog.showModal();
-        }
+            function openADDialog() {
+                ADdialog.showModal();
+            }
 
-        function closeADDialog() {
-            ADdialog.close();
-        }
+            function closeADDialog() {
+                ADdialog.close();
+            }
 
-        function endDialog() {
-            ADdialog.close();
-            dialog.showModal();
-        }
+            function endDialog() {
+                ADdialog.close();
+                dialog.showModal();
+            }
+        </script>
+        <script>
+            const dialog = document.getElementById('okDialog');
 
-    </script>
-    <script>
-        const dialog = document.getElementById('okDialog');
+            function openOKDialog() {
+                dialog.showModal();
+            }
 
-        function openOKDialog() {
-            dialog.showModal();
-        }
-
-        function closeOKDialog() {
-            dialog.close();
-        }
-    </script>
+            function closeOKDialog() {
+                dialog.close();
+            }
+        </script>
 </body>
