@@ -13,7 +13,67 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // Определение функции updateQuantity
+        function updateQuantity(productId, operation) {
+            let url = `/korzina/${productId}/${operation}`;
+
+            fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    let quantityElement = document.getElementById(`quantity-${productId}`);
+                    if (data.quantity >= 0) {
+                        quantityElement.innerText = data.quantity;
+                        updateTotalPrice(); // Пересчитываем общую сумму заказа
+                    }
+                    if (data.quantity === 0) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            let products = document.querySelectorAll('.products-block');
+
+            // Проверяем, есть ли элементы с классом .products-block на странице
+            if (products.length > 0) {
+                products.forEach(product => {
+                    let quantityElement = product.querySelector('.products-quantity');
+                    let priceElement = product.querySelector('.products-price');
+
+                    // Проверяем, что элементы с количеством и ценой товара найдены
+                    if (quantityElement && priceElement) {
+                        let quantity = parseInt(quantityElement.innerText);
+                        let price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, ''));
+                        totalPrice += quantity * price;
+                    }
+                });
+            }
+
+            // Выводим общую сумму заказа на страницу
+            document.getElementById('total-price').innerText = totalPrice.toFixed(2) + '₽';
+        }
+
+        // Вызываем функцию updateTotalPrice после загрузки страницы
+        document.addEventListener('DOMContentLoaded', updateTotalPrice);
+    </script>
 </head>
+
 <body>
     <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
@@ -32,10 +92,10 @@
 
                     <div class="dropdown-block">
                         @if (isset($categories))
-                        @foreach ($categories as $category)
-                        <a href="/">{{ $category->title }}</a>
-                        <br>
-                        @endforeach
+                            @foreach ($categories as $category)
+                                <a href="/">{{ $category->title }}</a>
+                                <br>
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -64,7 +124,7 @@
                         <div class="username-block" >
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
-                                {{auth()->user()->name }}
+                                {{ auth()->user()->name }}
                             </div>
                         </div>
                     </a>
@@ -100,25 +160,27 @@
                                         <div class="products-title">
                                             {{ $product['title'] }} <br>
                                         </div>
+                                        <div class="products-price"> <!-- Добавляем класс .products-price -->
+                                            Цена: {{ $product['price'] }}₽ <br>
+                                        </div>
                                     </div>
                                     <div>
                                         <div>
-                                            <button class="main-button">
-                                                <div class="products-price">
-                                                    {{ $product['price'] }} ₽
-                                                </div>
-                                                <div class="v-korzinu">
-                                                    В корзину
-                                                </div>
-                                            </button>
+                                            <button type="button"
+                                                onclick="updateQuantity({{ $product->id }}, 'decrease')">-</button>
+                                            <!-- Элемент <span> для отображения количества товара с правильным идентификатором -->
+                                            <span class="products-quantity"
+                                                id="quantity-{{ $product->id }}">{{ $product->pivot->quantity }}</span>
+                                            <button type="button"
+                                                onclick="updateQuantity({{ $product->id }}, 'increase')">+</button>
                                         </div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <p style="display: none;">{{ $count = $count + 1 }}</p>
-                        @else($count = 2)
-                            <br>
-                            <p style="display: none;">{{ $count = 0 }}</p>
+                                <p style="display: none;">{{ $count = $count + 1 }}</p>
+                            @else($count = 2)
+                                <br>
+                                <p style="display: none;">{{ $count = 0 }}</p>
                         @endif
                     @endforeach
                 @endif
@@ -129,7 +191,7 @@
                         <h6>Итого</h6>
                     </div>
                     <div class="d-flex align-items-center">
-                        <h3>5000.00₽</h3>
+                        <h3 id="total-price">0.00₽</h3> <!-- Этот элемент будет содержать общую сумму заказа -->
                     </div>
                 </div>
                 <div class="d-flex justify-content-center pb-3">

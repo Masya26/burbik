@@ -6,9 +6,12 @@ use App\Http\Requests\Category\UpdateRequest;
 use App\Http\Requests\Product\StoreRequest;
 use App\Models\Category;
 use App\Models\Products;
+use App\Models\User;
+use App\Models\Order;
 use App\Models\ProductTag;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
@@ -147,5 +150,31 @@ class ProductsController extends Controller
     {
         $product->delete();
         return redirect()->route('products.admin');
+    }
+    public function addToCart(Request $request, Products $product)
+    {
+        // Получаем текущего пользователя
+        $user = auth()->user();
+
+        // Получаем корзину текущего пользователя
+        $korzina = $user->orders()->where('status', 'korzina')->firstOrCreate(['status' => 'korzina']);
+
+        // Проверяем, есть ли товар уже в корзине пользователя
+        if ($korzina->products->contains($product->id)) {
+            // Увеличиваем количество товара в корзине на единицу
+            $productInCart = $korzina->products()->where('product_id', $product->id)->first();
+            $productInCart->pivot->update(['quantity' => $productInCart->pivot->quantity + 1]);
+        } else {
+            // Уменьшаем количество товара в базе данных на 1
+            $product->decrement('count');
+
+            // Добавляем товар в корзину пользователя с начальным количеством 1
+            $korzina->products()->attach($product->id, ['quantity' => 1]);
+        }
+
+        // После добавления в корзину
+        $redirectUrl = $request->input('redirect_url', route('index.welcome')); // Если нет указанного URL, то перенаправляем на главную страницу
+
+        return redirect($redirectUrl);
     }
 }
