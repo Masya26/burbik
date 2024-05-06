@@ -16,17 +16,19 @@
 </head>
 <body>
     <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
-        <div style="display:grid; grid-template-columns: 25% 20% 40% 15%;" class="border-bottom pt-2 pb-2">
+        <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
-                    <img src="images\logo.png" style="max-width: 55%;">
+                    <img src="images\logo.png" style="max-width: 100%;">
                 </a>
             </div>
             <div class="dropdown-flex-block">
                 <div class="dropdown">
-                    <span class="badge fw-bold button-catalog" style="width: 100%;"> Категории товаров
-                        <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px; left:2px;"></i>
-                    </span>
+                    <button class="main-button" style="width: 100%;">
+                        <div class="catalog">
+                            Категории товаров
+                        </div>
+                    </button>
 
                     <div class="dropdown-block">
                         @if (isset($categories))
@@ -51,12 +53,68 @@
             </div>
             <div class="basket-block">
                 <a href="/korzina">
-                    <span class="badge mini-text basket-button fw-bold">
-                        <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
+                    <button class="main-button" style="width: 100%;">
                         Корзина
-                    </span>
+                    </button>
                 </a>
             </div>
+            <div style="display:grid; grid-template-columns: 15% auto;">
+                <div class="person-block">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="person-block">
+                    UserName
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:grid; grid-template-columns: 25% 75%; padding-top: 3%; width:100%">
+        <div>
+            <p style="display: none;">{{ $count = 0 }}</p>
+            @if (isset($products))
+                @foreach ($products as $product)
+                    @if ($count <= 4)
+                        <!-- Пример товара 1 -->
+                        <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
+                            <div style="text-align:center">
+                                <img style="width:150px; height:150px;"
+                                    src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                            </div>
+
+                            <div class="products-text-block">
+                                <div>
+                                    <div class="products-name">
+                                        {{ $product['name'] }} <br>
+                                    </div>
+                                    <div class="products-title">
+                                        {{ $product['title'] }} <br>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <button class="main-button">
+                                            <div class="products-price">
+                                                {{ $product['price'] }} ₽
+                                            </div>
+                                            <div class="v-korzinu">
+                                                В корзину
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="display: none;">{{ $count = $count + 1 }}</p>
+                    @else($count = 3)
+                        <br>
+                        <p style="display: none;">{{ $count = 0 }}</p>
+                    @endif
+                @endforeach
+            @endif
+        </div>
+        </div>
+        <div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

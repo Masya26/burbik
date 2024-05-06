@@ -26,6 +26,16 @@ class ProductsController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function indexkor()
+    {
+        $categories = Category::all();
+        $products = Products::with('category')->get();
+
+        return view('korzina', [
+            'products' => $products->reverse(),
+            'categories' => $categories,
+        ]);
+    }
     public function admin()
     {
         $products = Products::all();
@@ -48,30 +58,41 @@ class ProductsController extends Controller
     public function store(StoreRequest $request)
     {
         $category = Category::find($request->input('category_id'));
+
+        // Создаем новый экземпляр продукта
         $product = new Products();
+
+        // Получаем валидированные данные из запроса
         $data = $request->validated();
 
-        // Загрузка изображения продукта
+        // Загружаем изображение продукта
         if ($request->hasFile('product_image')) {
-            $filename = $request->file('product_image')->getClientOriginalName();
-            $request->file('product_image')->move(public_path('images/product/'), $filename);
-            $validatedData['product_image'] = $filename;
+            $image = $request->file('product_image');
+            $filename = $image->getClientOriginalName(); // Получаем оригинальное имя файла
+            $path = $image->storeAs('images/product', $filename, 'public'); // Сохраняем файл с оригинальным именем
+            $data['product_image'] = $filename; // Обновляем массив данных путем файла
         }
-        // Получение выбранной категории
 
-        // Создание продукта
+        // Создаем продукт
         $product = Products::firstOrCreate([
             'name' => $data['name'],
         ], $data);
-        // Сохранение категории
-        $product->category_id = $category->id; // Устанавливаем категорию
-        $product->save(); // Сохраняем продукт
+
+        // Устанавливаем категорию продукта
+        $product->category_id = $category->id;
+
+        // Сохраняем продукт
+        $product->save();
+
+        // Проверяем успешность операции сохранения
         if (!$product) {
             return response()->json(['error' => 'Продукт с таким именем уже существует'], 409);
         }
 
+        // Перенаправляем на страницу администрирования продуктов
         return redirect()->route('products.admin');
     }
+
 
     /**
      * Display the specified resource.
@@ -95,34 +116,28 @@ class ProductsController extends Controller
      */
     public function update(UpdateRequest $request, Products $product)
     {
+        // Получаем экземпляр товара из базы данных
         $product = Products::find($product->id);
 
+        // Если загружено новое изображение, обрабатываем его
         if ($request->hasFile('product_image')) {
-            $filename = $request->file('product_image')->getClientOriginalName();
-
-            if (file_exists(public_path('images/product/' . $filename))) {
-                throw new Exception('Файл с таким именем уже существует.');
-            }
-
-            if (!is_dir(public_path('images/product'))) {
-                mkdir(public_path('images/product'), 0777, true);
-            }
-
-            $request->file('product_image')->move(public_path('images/product/'), $filename);
+            $image = $request->file('product_image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension(); // Генерируем уникальное имя файла
+            $image->move(public_path('images/product/'), $filename); // Перемещаем изображение в директорию
+            $product->product_image = $filename; // Устанавливаем имя изображения в поле product_image
         }
 
+        // Обновляем остальные поля товара
         $product->name = $request->name;
         $product->title = $request->title;
         $product->price = $request->price;
         $product->count = $request->count;
         $product->category_id = $request->category_id;
 
-        if ($request->hasFile('product_image')) {
-            $product->product_image = $filename;
-        }
-
+        // Сохраняем обновленный товар в базу данных
         $product->save();
 
+        // Возвращаем успешный ответ
         return response()->json(['message' => 'Продукт успешно обновлён'], 200);
     }
     /**
