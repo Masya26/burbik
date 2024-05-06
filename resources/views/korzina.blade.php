@@ -16,16 +16,16 @@
 </head>
 <body>
     <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
-        <div style="display:grid; grid-template-columns: 25% 20% 40% 15%;" class="border-bottom pt-2 pb-2">
+        <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
-                    <img src="images\logo.png" style="max-width: 55%;">
+                    <img src="images\logo.png" style="max-width: 100%;">
                 </a>
             </div>
             <div class="dropdown-flex-block">
                 <div class="dropdown">
                     <span class="badge fw-bold button-catalog" style="width: 100%;"> Категории товаров
-                        <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px; left:2px;"></i>
+                        <i class="fa fa-angle-down" style="font-size:18px; position:relative; top:2px;"></i>
                     </span>
 
                     <div class="dropdown-block">
@@ -57,7 +57,19 @@
                     </span>
                 </a>
             </div>
+            <div style="display:grid; grid-template-columns: 15% auto;">
+                <div class="person-block">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="person-block">
+                    UserName
+                </div>
+            </div>
         </div>
+    </div>
+    <div style="display:grid; grid-template-columns: 25% 75%; padding-top: 3%; width:100%">
+
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">

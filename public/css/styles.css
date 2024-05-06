@@ -59,13 +59,25 @@ a {
     color: white;
     padding-top: 0.7rem;
     font-size: 100%;
-    width: 212px;
+    width: 100%;
     height: 40px;
     text-align:center;
+    border-radius: 5px;
+    border-style: none;
 }
 
 .button-catalog:hover {
     background: rgb(80, 200, 255);
+}
+
+.catalog{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    font-family: "SB Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+    line-height: 29px;
+    font-size: 2.5vh;
 }
 
 .dropdown-flex-block{
@@ -109,6 +121,12 @@ a {
 
 .basket-button:hover {
     background: rgb(80, 200, 255);
+}
+
+.person-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
