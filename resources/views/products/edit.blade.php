@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Добавить продукт</h1>
+                    <h1 class="m-0">Изменить продукт</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -28,8 +28,9 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('products.update', $product->id) }}" method="PATCH" enctype="multipart/form-data">
                     @csrf
+                    @method('patch')
                     <div class="form-group">
                         <label for="name">Название</label>
                         <input type="text" class="form-control" id="name" name="name"
@@ -75,13 +76,12 @@
                         </select>
                     </div> --}}
                     <div class="form-group">
-                        <select name="category_id" class="form-control">
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->title }}
-                            </option>
+                        <select name="category_id" class="form-control select2" style="width: 100%;">
+                            <option selected="selected" disabled>Выберите категорию</option>
+                            @foreach ($categories as $category)
+                                <option value="{{$category ->id}}">{{$category->title}}</option>
                             @endforeach
-                           </select>
+                        </select>
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Добавить">
