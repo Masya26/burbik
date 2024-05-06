@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
+    <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
@@ -58,25 +58,37 @@
                     </button>
                 </a>
             </div>
-            <div style="display:grid; grid-template-columns: 15% auto;">
-                <div class="person-block">
-                    <i class="bi bi-person"></i>
-                </div>
-                <div class="person-block">
-                    UserName
-                </div>
+            <div class="person-block">
+                @if(auth()->check())
+                    <a href="/dashboard">
+                        <div class="username-block" >
+                            <div style="display:grid; grid-template-columns: 15% auto;">
+                                <i class="bi bi-person"></i>
+                                {{auth()->user()->name }}
+                            </div>
+                        </div>
+                    </a>
+                @else
+                    <div class="username-block" style="width: 100%">
+                        <a href="/login">
+                            <button class="main-button" style="width: 100%">
+                                Войти
+                            </button>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
-        <div style="display:grid; grid-template-columns: 25% 75%; padding-top: 3%; width:100%">
-            <div>
+        <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 3%; width:100%">
+            <div style="display:grid; grid-template-columns: auto auto auto; padding-top: 3%; width:100%">
                 <p style="display: none;">{{ $count = 0 }}</p>
                 @if (isset($products))
                     @foreach ($products as $product)
-                        @if ($count <= 4)
+                        @if ($count <= 2)
                             <!-- Пример товара 1 -->
-                            <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
+                            <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
                                 <div style="text-align:center">
-                                    <img style="width:150px; height:150px;"
+                                    <img style="width:150px; height:150px; border-radius: 5px;"
                                         src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
                                 </div>
 
@@ -104,16 +116,22 @@
                                 </div>
                             </div>
                             <p style="display: none;">{{ $count = $count + 1 }}</p>
-                        @else($count = 3)
+                        @else($count = 2)
                             <br>
                             <p style="display: none;">{{ $count = 0 }}</p>
                         @endif
                     @endforeach
                 @endif
             </div>
-            </div>
-            <div>
-                Сумма заказа
+            <div class="korzina-summa-zakaza">
+                <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
+                    <div class="d-flex align-items-center">
+                        <h6>Итого</h6>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <h3>5000.00₽</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

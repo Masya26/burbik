@@ -127,6 +127,14 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+}
+
+.username-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 40px;
 }
 
 
@@ -146,6 +154,7 @@ a {
 .products-block{
     width: 220px;
     height: 300px;
+    max-width: 100%;
 }
 
 .products-block:hover{
@@ -199,3 +208,9 @@ a {
 .main-button:hover .products-price{display: none;}
 
 .main-button:hover .v-korzinu{display: block;}
+
+.korzina-summa-zakaza{
+    background-color: rgb(216, 243, 255);
+    border-radius: 15px;
+    height: 160px;
+}
