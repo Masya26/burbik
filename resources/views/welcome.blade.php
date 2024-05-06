@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
+    <div style="margin: 2% 7% 0 7%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
@@ -34,8 +34,10 @@
                     <div class="dropdown-block">
                         @if (isset($categories))
                         @foreach ($categories as $category)
-                        <a href="/">{{ $category->title }}</a>
-                        <br>
+                        <div class="category">
+                            <a href="/">{{ $category->title }}</a>
+                            <br>
+                        </div>
                         @endforeach
                         @endif
                     </div>
