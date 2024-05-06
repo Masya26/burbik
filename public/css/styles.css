@@ -209,8 +209,34 @@ a {
 
 .main-button:hover .v-korzinu{display: block;}
 
+.dialog-main-button{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: rgb(11, 178, 255);
+    border-style: none;
+    color:#fff;
+}
+
+.dialog-main-button:hover{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: rgb(80, 200, 255);
+    color:rgb(255, 255, 255);
+}
+
 .korzina-summa-zakaza{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: rgb(216, 243, 255);
     border-radius: 15px;
-    height: 160px;
+    height: 120px;
+}
+
+.dialog-adress{
+    border:rgb(80, 200, 255);
+    border-radius: 10px;
+    width: 40%;
 }

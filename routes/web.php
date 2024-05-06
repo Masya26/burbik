@@ -33,6 +33,10 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -61,7 +61,7 @@
             </div>
             <div class="person-block">
                 @if(auth()->check())
-                    <a href="/dashboard">
+                    <a href="/profile">
                         <div class="username-block" >
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
