@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
+    <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
@@ -100,19 +100,81 @@
                                         </form>
                                     </div>
                                 </div>
+            <div class="person-block">
+                @if(auth()->check())
+                    <a href="/dashboard">
+                        <div class="username-block" >
+                            <div style="display:grid; grid-template-columns: 15% auto;">
+                                <i class="bi bi-person"></i>
+                                {{auth()->user()->name }}
                             </div>
                         </div>
-                        <p style="display: none;">{{ $count = $count + 1 }}</p>
-                    @else($count = 3)
-                        <br>
-                        <p style="display: none;">{{ $count = 0 }}</p>
-                    @endif
-                @endforeach
-            @endif
+                    </a>
+                @else
+                    <div class="username-block" style="width: 100%">
+                        <a href="/login">
+                            <button class="main-button" style="width: 100%">
+                                Войти
+                            </button>
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
-        </div>
-        <div>
+        <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 3%; width:100%">
+            <div style="display:grid; grid-template-columns: auto auto auto; padding-top: 3%; width:100%">
+                <p style="display: none;">{{ $count = 0 }}</p>
+                @if (isset($products))
+                    @foreach ($products as $product)
+                        @if ($count <= 2)
+                            <!-- Пример товара 1 -->
+                            <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                                <div style="text-align:center">
+                                    <img style="width:150px; height:150px; border-radius: 5px;"
+                                        src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                                </div>
 
+                                <div class="products-text-block">
+                                    <div>
+                                        <div class="products-name">
+                                            {{ $product['name'] }} <br>
+                                        </div>
+                                        <div class="products-title">
+                                            {{ $product['title'] }} <br>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <button class="main-button">
+                                                <div class="products-price">
+                                                    {{ $product['price'] }} ₽
+                                                </div>
+                                                <div class="v-korzinu">
+                                                    В корзину
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="display: none;">{{ $count = $count + 1 }}</p>
+                        @else($count = 2)
+                            <br>
+                            <p style="display: none;">{{ $count = 0 }}</p>
+                        @endif
+                    @endforeach
+                @endif
+            </div>
+            <div class="korzina-summa-zakaza">
+                <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
+                    <div class="d-flex align-items-center">
+                        <h6>Итого</h6>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <h3>5000.00₽</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
