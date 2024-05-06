@@ -106,34 +106,28 @@ class ProductsController extends Controller
      */
     public function update(UpdateRequest $request, Products $product)
     {
+        // Получаем экземпляр товара из базы данных
         $product = Products::find($product->id);
 
+        // Если загружено новое изображение, обрабатываем его
         if ($request->hasFile('product_image')) {
-            $filename = $request->file('product_image')->getClientOriginalName();
-
-            if (file_exists(public_path('/images/product/' . $filename))) {
-                throw new Exception('Файл с таким именем уже существует.');
-            }
-
-            if (!is_dir(public_path('/images/product'))) {
-                mkdir(public_path('/images/product'), 0777, true);
-            }
-
-            $request->file('product_image')->move(public_path('images/product/'), $filename);
+            $image = $request->file('product_image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension(); // Генерируем уникальное имя файла
+            $image->move(public_path('images/product/'), $filename); // Перемещаем изображение в директорию
+            $product->product_image = $filename; // Устанавливаем имя изображения в поле product_image
         }
 
+        // Обновляем остальные поля товара
         $product->name = $request->name;
         $product->title = $request->title;
         $product->price = $request->price;
         $product->count = $request->count;
         $product->category_id = $request->category_id;
 
-        if ($request->hasFile('product_image')) {
-            $product->product_image = $filename;
-        }
-
+        // Сохраняем обновленный товар в базу данных
         $product->save();
 
+        // Возвращаем успешный ответ
         return response()->json(['message' => 'Продукт успешно обновлён'], 200);
     }
     /**
