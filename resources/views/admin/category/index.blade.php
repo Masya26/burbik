@@ -10,7 +10,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index.welcome') }}">Home</a></li>
                         <li class="breadcrumb-item active">Главная страница</li>
                     </ol>
                 </div><!-- /.col -->
@@ -51,7 +51,7 @@
                                     </tr>
 
                                 @endforeach
-                                @endif 
+                                @endif
                                 </tbody>
                             </table>
                         </div>
