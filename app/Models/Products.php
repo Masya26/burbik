@@ -14,5 +14,14 @@ class Products extends Model
         'title',
         'product_image',
         'price',
+        'count',
+        'category_id',
     ];
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id');
+    }
+    public function getCategory() {
+        return Category::find($this->category_id);
+    }
 }

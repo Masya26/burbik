@@ -47,9 +47,19 @@ Route::group(['prefix' => 'category'], function () {
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 });
 
+Route::group(['prefix' => 'product'], function () {
+    Route::get('/', [ProductsController::class, 'admin'])->name('products.admin');
+    Route::get('/create', [ProductsController::class, 'create'])->name('products.create');
+    Route::post('/', [ProductsController::class, 'store'])->name('products.store');
+    Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+    Route::get('/{product}', [ProductsController::class, 'show'])->name('products.show');
+    Route::patch('/{product}', [ProductsController::class, 'update'])->name('products.update');
+    Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
+});
 // Для продуктов
-Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');;
+
 Route::get('/', [ProductsController::class, 'index'])->name('welcome');
-Route::post('/', [ProductsController::class, 'store'])->name('products.store');
+
+
 Route::get('/admin', Admincontroller::class);
 require __DIR__ . '/auth.php';

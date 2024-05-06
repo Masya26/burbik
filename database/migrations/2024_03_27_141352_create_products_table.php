@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string("product_image");
             $table->double("price");
             $table->integer("count");
-            $table->boolean("is_published");
-
-            $table->foreignId('user_id')->nullable()->index()->constrained('users');
-            $table->foreignId('category_id')->nullable()->index()->constrained('categories');
+            $table->boolean("is_published")->default(true);
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->nullOnDelete();
         });
     }
 
