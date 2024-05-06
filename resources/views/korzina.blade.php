@@ -92,14 +92,12 @@
                                 </div>
                                 <div>
                                     <div>
-                                        <button class="main-button">
-                                            <div class="products-price">
-                                                {{ $product['price'] }} ₽
-                                            </div>
-                                            <div class="v-korzinu">
-                                                В корзину
-                                            </div>
-                                        </button>
+                                        <form action="{{ route('korzina.updateQuantity', $product->id) }}" method="post">
+                                            @csrf
+                                            @method('patch')
+                                            <input type="number" name="quantity" value="{{ $product->pivot->quantity }}">
+                                            <button type="submit">Обновить количество</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admincontroller;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductsController::class, 'admin'])->name('products.admin');
     Route::get('/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/', [ProductsController::class, 'store'])->name('products.store');
+    Route::post('/{product}/add-to-cart', [ProductsController::class, 'addToCart'])->name('products.addToCart');
     Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
     Route::get('/{product}', [ProductsController::class, 'show'])->name('products.show');
     Route::patch('/{product}', [ProductsController::class, 'update'])->name('products.update');
@@ -60,8 +62,11 @@ Route::group(['prefix' => 'product'], function () {
 
 Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
 
-Route::get('/korzina', [ProductsController::class, 'indexkor'])->name('korzina');
-
+// Для корзины
+Route::get('/korzina', [OrderController::class, 'showKorzina'])->name('korzina.show');
+Route::delete('/korzina/{product}', [OrderController::class, 'removeFromKorzina'])->name('korzina.remove');
+Route::patch('/korzina/{product}', [OrderController::class, 'updateQuantityInKorzina'])->name('korzina.updateQuantity');
 
 Route::get('/admin', Admincontroller::class)->name('admin.index');
+
 require __DIR__ . '/auth.php';
