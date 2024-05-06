@@ -4,23 +4,23 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-label style="color: white;" for="name" :value="__('Имя пользователя')" />
+            <x-text-input id="name" style="background-color: white; border-color: white;" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-label style="color: white;" for="email" :value="__('Email')" />
+            <x-text-input id="email" style="background-color: white; border-color: white;" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label style="color: white;" for="password" :value="__('Пароль')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <x-text-input id="password" style="background-color: white; border-color: white;" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
@@ -30,9 +30,9 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label style="color: white;" for="password_confirmation" :value="__('Подтвердите пароль')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+            <x-text-input id="password_confirmation" style="background-color: white; border-color: white;" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
@@ -40,12 +40,12 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+            <a style="color: white;" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md" href="{{ route('login') }}">
+                {{ __('Уже зарегистрированы?') }}
             </a>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
+            <x-primary-button class="ms-4" style="background-color: white; color: rgb(11, 178, 255); ">
+                {{ __('Зарегистрироваться') }}
             </x-primary-button>
         </div>
     </form>

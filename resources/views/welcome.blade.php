@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div style="margin: 2% 15% 0 15%;" class="shadow p-3 mb-5 bg-body rounded">
+    <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
@@ -59,13 +59,25 @@
                     </button>
                 </a>
             </div>
-            <div style="display:grid; grid-template-columns: 15% auto;">
-                <div class="person-block">
-                    <i class="bi bi-person"></i>
-                </div>
-                <div class="person-block">
-                    {{ auth()->user()->name }}
-                </div>
+            <div class="person-block">
+                @if(auth()->check())
+                    <a href="/dashboard">
+                        <div class="username-block" >
+                            <div style="display:grid; grid-template-columns: 15% auto;">
+                                <i class="bi bi-person"></i>
+                                {{auth()->user()->name }}
+                            </div>
+                        </div>
+                    </a>
+                @else
+                    <div class="username-block" style="width: 100%">
+                        <a href="/login">
+                            <button class="main-button" style="width: 100%">
+                                Войти
+                            </button>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -78,11 +90,10 @@
                 @foreach ($products as $product)
                     @if ($count <= 4)
                         <!-- Пример товара 1 -->
-                        <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
-                            <div style="text-align:center">
-                                <img style="width:150px; height:150px;"
-                                    src="{{ asset('storage/images/product/' . $product->product_image) }}"
-                                    alt=""> <br>
+                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                            <div style="text-align:center;">
+                                <img style="width:150px; height:150px; border-radius: 5px;"
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt=""> <br>
                             </div>
 
                             <div class="products-text-block">

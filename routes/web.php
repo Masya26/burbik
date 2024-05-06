@@ -26,6 +26,14 @@ Route::get('/korzina', function () {
     return view('korzina');
 });
 
+Route::get('/login', function () {
+    return view('login');
+});
+
+Route::get('/register', function () {
+    return view('register');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -66,6 +74,8 @@ Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
 Route::get('/korzina', [OrderController::class, 'showKorzina'])->name('korzina.show');
 Route::delete('/korzina/{product}', [OrderController::class, 'removeFromKorzina'])->name('korzina.remove');
 Route::patch('/korzina/{product}', [OrderController::class, 'updateQuantityInKorzina'])->name('korzina.updateQuantity');
+Route::patch('/korzina/{product}/decrease', [OrderController::class,'decreaseQuantityInKorzina'])->name('korzina.decrease');
+Route::patch('/korzina/{product}/increase', [OrderController::class,'increaseQuantityInKorzina'])->name('korzina.increase');
 
 Route::get('/admin', Admincontroller::class)->name('admin.index');
 

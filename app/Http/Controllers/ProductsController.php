@@ -165,6 +165,9 @@ class ProductsController extends Controller
             $productInCart = $korzina->products()->where('product_id', $product->id)->first();
             $productInCart->pivot->update(['quantity' => $productInCart->pivot->quantity + 1]);
         } else {
+            // Уменьшаем количество товара в базе данных на 1
+            $product->decrement('count');
+
             // Добавляем товар в корзину пользователя с начальным количеством 1
             $korzina->products()->attach($product->id, ['quantity' => 1]);
         }
