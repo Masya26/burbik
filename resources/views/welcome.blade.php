@@ -33,10 +33,10 @@
 
                     <div class="dropdown-block">
                         @if (isset($categories))
-                        @foreach ($categories as $category)
-                        <a href="/">{{ $category->title }}</a>
-                        <br>
-                        @endforeach
+                            @foreach ($categories as $category)
+                                <a href="/">{{ $category->title }}</a>
+                                <br>
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <i class="bi bi-person"></i>
                 </div>
                 <div class="person-block">
-                    {{auth()->user()->name }}
+                    {{ auth()->user()->name }}
                 </div>
             </div>
         </div>
@@ -81,7 +81,8 @@
                         <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
                             <div style="text-align:center">
                                 <img style="width:150px; height:150px;"
-                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt=""> <br>
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}"
+                                    alt=""> <br>
                             </div>
 
                             <div class="products-text-block">
@@ -95,14 +96,18 @@
                                 </div>
                                 <div>
                                     <div>
-                                        <button class="main-button">
-                                            <div class="products-price">
-                                                {{ $product['price'] }} ₽
-                                            </div>
-                                            <div class="v-korzinu">
-                                                В корзину
-                                            </div>
-                                        </button>
+                                        <form action="{{ route('products.addToCart', $product->id) }}" method="post">
+                                            @csrf
+                                            <button class="main-button" type="submit">
+                                                <div class="products-price">
+                                                    {{ $product['price'] }} ₽
+                                                </div>
+                                                <div class="v-korzinu">
+                                                    В корзину
+                                                </div>
+                                            </button>
+                                            <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
