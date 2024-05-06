@@ -10,7 +10,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index.welcome') }}">Home</a></li>
                         <li class="breadcrumb-item active">Главная страница</li>
                     </ol>
                 </div><!-- /.col -->
@@ -28,13 +28,14 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <form action="{{ route('products.update', $product->id) }}" method="PATCH" enctype="multipart/form-data">
+                <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('patch')
+                    @method('PATCH')
+
+                    <!-- Поля для изменения свойств продукта -->
                     <div class="form-group">
                         <label for="name">Название</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Название товара" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Название товара" required>
                     </div>
 
                     <!-- Поле для описания товара -->

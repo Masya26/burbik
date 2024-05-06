@@ -58,10 +58,10 @@ Route::group(['prefix' => 'product'], function () {
 });
 // Для продуктов
 
-Route::get('/', [ProductsController::class, 'index'])->name('welcome');
+Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
 
-Route::get('/', [ProductsController::class, 'indexkor'])->name('korzina');
+Route::get('/korzina', [ProductsController::class, 'indexkor'])->name('korzina');
 
 
-Route::get('/admin', Admincontroller::class);
+Route::get('/admin', Admincontroller::class)->name('admin.index');
 require __DIR__ . '/auth.php';
