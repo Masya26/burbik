@@ -60,6 +60,8 @@ Route::group(['prefix' => 'product'], function () {
 
 Route::get('/', [ProductsController::class, 'index'])->name('welcome');
 
+Route::get('/', [ProductsController::class, 'indexkor'])->name('korzina');
+
 
 Route::get('/admin', Admincontroller::class);
 require __DIR__ . '/auth.php';
