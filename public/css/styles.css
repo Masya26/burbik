@@ -92,8 +92,16 @@ a {
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     border-radius: 5px;
     background-color: white;
-    width: 300px;
-    height: 200px;
+    width: 100%;
+    height: auto;
+    font-family: "SB Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+    line-height: 29px;
+    font-size: 2.3vh;
+}
+
+.category:hover{
+    background-color: rgb(216, 243, 255);
+    border-radius: 5px;
 }
 
 .search-form-block{
@@ -107,6 +115,9 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-family: "SB Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+    line-height: 29px;
+    font-size: 2.7vh;
 }
 
 .basket-button {
@@ -155,11 +166,12 @@ a {
     width: 220px;
     height: 300px;
     max-width: 100%;
+    border-radius: 10px;
 }
 
 .products-block:hover{
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .products-name {
@@ -209,8 +221,34 @@ a {
 
 .main-button:hover .v-korzinu{display: block;}
 
+.dialog-main-button{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: rgb(11, 178, 255);
+    border-style: none;
+    color:#fff;
+}
+
+.dialog-main-button:hover{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: rgb(80, 200, 255);
+    color:rgb(255, 255, 255);
+}
+
 .korzina-summa-zakaza{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: rgb(216, 243, 255);
     border-radius: 15px;
-    height: 160px;
+    height: 120px;
+}
+
+.dialog-adress{
+    border:rgb(80, 200, 255);
+    border-radius: 10px;
+    width: 40%;
 }

@@ -141,9 +141,9 @@
                 </a>
             </div>
             <div class="person-block">
-                @if (auth()->check())
-                    <a href="/dashboard">
-                        <div class="username-block">
+                @if(auth()->check())
+                    <a href="/profile">
+                        <div class="username-block" >
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
                                 {{ auth()->user()->name }}
@@ -209,19 +209,75 @@
             </div>
             <div class="korzina-summa-zakaza">
                 <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-end">
                         <h6>Итого</h6>
                     </div>
                     <div class="d-flex align-items-center">
                         <h3 id="total-price">0.00₽</h3> <!-- Этот элемент будет содержать общую сумму заказа -->
                     </div>
                 </div>
+                <div class="d-flex justify-content-center pb-3">
+                    <button onclick="openADDialog()" class="main-button" style="width: 80%">
+                        Оформить заказ
+                    </button>
+                </div>
+                <dialog id="ADDialog" class="dialog-adress">
+                    <div>
+                        Для завершения оформления заказа введите адрес доставки:
+                        <div class="pt-2 pb-2">
+                            <form action="" method="get" class="search-form border">
+                                <div style="display:flex; justify-content: space-between;">
+                                    <input name="s" placeholder="Введите адрес доставки" type="search" class="search-input mini-text">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button onclick="closeADDialog()" class="dialog-main-button">В корзину</button>
+                            <button onclick="endDialog()" class="dialog-main-button">Заказать</button>
+                        </div>
+                    </div>
+                </dialog>
+                <dialog id="okDialog" class="dialog-adress">
+                    <div>
+                        <h4 style="text-align: center">Ваш заказ принят!</h4>
+                        <h6 style="text-align: center">Связаться с нами: 8-800-458-44-88</h6>
+                        <div class="d-flex justify-content-center">
+                            <button onclick="closeOKDialog()" class="dialog-main-button">Закрыть</button>
+                        </div>
+                    </div>
+                </dialog>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
+    <script>
+        const ADdialog = document.getElementById('ADDialog');
 
+        function openADDialog() {
+            ADdialog.showModal();
+        }
 
+        function closeADDialog() {
+            ADdialog.close();
+        }
+
+        function endDialog() {
+            ADdialog.close();
+            dialog.showModal();
+        }
+
+    </script>
+    <script>
+        const dialog = document.getElementById('okDialog');
+
+        function openOKDialog() {
+            dialog.showModal();
+        }
+
+        function closeOKDialog() {
+            dialog.close();
+        }
+    </script>
 </body>
