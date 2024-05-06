@@ -38,6 +38,7 @@
                                         <th>Наименование</th>
                                         <th>ID Категории</th>
                                         <th>Категория</th>
+                                        <th>Изображение</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +51,10 @@
                                         <td><a href="{{route('products.show', $product->id)}}">{{$product->name}}</a></td>
                                         <td>{{$product->category_id}}</td>
                                         <td>{{$product->category->title}}</td>
-
+                                        <td>
+                                            <img style="width:150px; height:150px;"
+                                                src="{{ asset('storage/images/product/' . $product->product_image) }}" alt=""> <br>
+                                        </td>
                                     </tr>
 
                                 @endforeach

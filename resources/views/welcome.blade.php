@@ -65,7 +65,7 @@
                     <i class="bi bi-person"></i>
                 </div>
                 <div class="person-block">
-                    UserName
+                    {{auth()->user()->name }}
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                         <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
                             <div style="text-align:center">
                                 <img style="width:150px; height:150px;"
-                                    src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt=""> <br>
                             </div>
 
                             <div class="products-text-block">
