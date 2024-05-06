@@ -91,4 +91,14 @@ class OrderController extends Controller
 
         return response()->json(['quantity' => $quantity, 'message' => 'Quantity decreased successfully']);
     }
+    public function updateProductCount($productId, $countChange)
+    {
+        $product = Products::find($productId);
+        if ($product) {
+            $product->count += $countChange;
+            $product->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
 }
