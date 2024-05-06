@@ -116,26 +116,26 @@ class ProductsController extends Controller
      */
     public function update(UpdateRequest $request, Products $product)
     {
-        // Получаем экземпляр товара из базы данных
-        $product = Products::find($product->id);
-
-        // Если загружено новое изображение, обрабатываем его
+        // Проверяем наличие загруженного изображения
         if ($request->hasFile('product_image')) {
             $image = $request->file('product_image');
             $filename = uniqid() . '.' . $image->getClientOriginalExtension(); // Генерируем уникальное имя файла
-            $image->move(public_path('images/product/'), $filename); // Перемещаем изображение в директорию
-            $product->product_image = $filename; // Устанавливаем имя изображения в поле product_image
+
+            // Сохраняем изображение в директории storage
+            $path = $image->storeAs('images/product', $filename, 'public'); // Перемещаем изображение в директорию storage
+
+            // Обновляем имя файла в базе данных
+            $product->product_image = $path;
         }
 
-        // Обновляем остальные поля товара
-        $product->name = $request->name;
-        $product->title = $request->title;
-        $product->price = $request->price;
-        $product->count = $request->count;
-        $product->category_id = $request->category_id;
-
-        // Сохраняем обновленный товар в базу данных
-        $product->save();
+        // Обновляем поля товара
+        $product->update([
+            'name' => $request->name,
+            'title' => $request->title,
+            'price' => $request->price,
+            'count' => $request->count,
+            'category_id' => $request->category_id,
+        ]);
 
         // Возвращаем успешный ответ
         return response()->json(['message' => 'Продукт успешно обновлён'], 200);
