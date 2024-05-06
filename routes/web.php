@@ -74,6 +74,8 @@ Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
 Route::get('/korzina', [OrderController::class, 'showKorzina'])->name('korzina.show');
 Route::delete('/korzina/{product}', [OrderController::class, 'removeFromKorzina'])->name('korzina.remove');
 Route::patch('/korzina/{product}', [OrderController::class, 'updateQuantityInKorzina'])->name('korzina.updateQuantity');
+Route::patch('/korzina/{product}/decrease', [OrderController::class,'decreaseQuantityInKorzina'])->name('korzina.decrease');
+Route::patch('/korzina/{product}/increase', [OrderController::class,'increaseQuantityInKorzina'])->name('korzina.increase');
 
 Route::get('/admin', Admincontroller::class)->name('admin.index');
 
