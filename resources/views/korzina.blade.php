@@ -67,54 +67,54 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div style="display:grid; grid-template-columns: 25% 75%; padding-top: 3%; width:100%">
-        <div>
-            <p style="display: none;">{{ $count = 0 }}</p>
-            @if (isset($products))
-                @foreach ($products as $product)
-                    @if ($count <= 4)
-                        <!-- Пример товара 1 -->
-                        <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
-                            <div style="text-align:center">
-                                <img style="width:150px; height:150px;"
-                                    src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
-                            </div>
-
-                            <div class="products-text-block">
-                                <div>
-                                    <div class="products-name">
-                                        {{ $product['name'] }} <br>
-                                    </div>
-                                    <div class="products-title">
-                                        {{ $product['title'] }} <br>
-                                    </div>
+        <div style="display:grid; grid-template-columns: 25% 75%; padding-top: 3%; width:100%">
+            <div>
+                <p style="display: none;">{{ $count = 0 }}</p>
+                @if (isset($products))
+                    @foreach ($products as $product)
+                        @if ($count <= 4)
+                            <!-- Пример товара 1 -->
+                            <div style="margin: 0 auto; padding: 2% 2% 2% 2%;" class="products-block">
+                                <div style="text-align:center">
+                                    <img style="width:150px; height:150px;"
+                                        src="{{ 'images/product/' . $product->product_image }}" alt=""> <br>
                                 </div>
-                                <div>
+
+                                <div class="products-text-block">
                                     <div>
-                                        <button class="main-button">
-                                            <div class="products-price">
-                                                {{ $product['price'] }} ₽
-                                            </div>
-                                            <div class="v-korzinu">
-                                                В корзину
-                                            </div>
-                                        </button>
+                                        <div class="products-name">
+                                            {{ $product['name'] }} <br>
+                                        </div>
+                                        <div class="products-title">
+                                            {{ $product['title'] }} <br>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <button class="main-button">
+                                                <div class="products-price">
+                                                    {{ $product['price'] }} ₽
+                                                </div>
+                                                <div class="v-korzinu">
+                                                    В корзину
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <p style="display: none;">{{ $count = $count + 1 }}</p>
-                    @else($count = 3)
-                        <br>
-                        <p style="display: none;">{{ $count = 0 }}</p>
-                    @endif
-                @endforeach
-            @endif
-        </div>
-        </div>
-        <div>
-
+                            <p style="display: none;">{{ $count = $count + 1 }}</p>
+                        @else($count = 3)
+                            <br>
+                            <p style="display: none;">{{ $count = 0 }}</p>
+                        @endif
+                    @endforeach
+                @endif
+            </div>
+            </div>
+            <div>
+                Сумма заказа
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
