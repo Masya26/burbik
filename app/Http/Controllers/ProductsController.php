@@ -26,6 +26,16 @@ class ProductsController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function indexkor()
+    {
+        $categories = Category::all();
+        $products = Products::with('category')->get();
+
+        return view('korzina', [
+            'products' => $products->reverse(),
+            'categories' => $categories,
+        ]);
+    }
     public function admin()
     {
         $products = Products::all();

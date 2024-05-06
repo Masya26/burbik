@@ -25,7 +25,7 @@
             </div>
             <div class="dropdown-flex-block">
                 <div class="dropdown">
-                    <button class="button-catalog" style="width: 100%;">
+                    <button class="main-button" style="width: 100%;">
                         <div class="catalog">
                             Категории товаров
                         </div>
@@ -54,10 +54,9 @@
             </div>
             <div class="basket-block">
                 <a href="/korzina">
-                    <span class="badge mini-text basket-button fw-bold">
-                        <i class="bi bi-basket2 fs-4" style="color: rgb(255, 255, 255)"></i>
+                    <button class="main-button" style="width: 100%;">
                         Корзина
-                    </span>
+                    </button>
                 </a>
             </div>
             <div style="display:grid; grid-template-columns: 15% auto;">
@@ -96,7 +95,7 @@
                                 </div>
                                 <div>
                                     <div>
-                                        <button class="to-basket-button">
+                                        <button class="main-button">
                                             <div class="products-price">
                                                 {{ $product['price'] }} ₽
                                             </div>

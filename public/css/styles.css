@@ -179,7 +179,7 @@ a {
     font-size: 2vh;
 }
 
-.to-basket-button{
+.main-button{
     width: 200px;
     height: 40px;
     border-radius: 10px;
@@ -188,7 +188,7 @@ a {
     color:#fff;
 }
 
-.to-basket-button:hover{
+.main-button:hover{
     width: 200px;
     height: 40px;
     border-radius: 10px;
@@ -196,6 +196,6 @@ a {
     color:rgb(255, 255, 255);
 }
 
-.to-basket-button:hover .products-price{display: none;}
+.main-button:hover .products-price{display: none;}
 
-.to-basket-button:hover .v-korzinu{display: block;}
+.main-button:hover .v-korzinu{display: block;}
