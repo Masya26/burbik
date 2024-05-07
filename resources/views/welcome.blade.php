@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="search-form-block" style="width: 100%;">
-                <form onsubmit="searchProducts(event)" class="search-form border pt-2">
+                <form id="searchForm" class="search-form border pt-2">
                     <div style="display:flex; justify-content: space-between; padding:0 5px 0 5px;">
                         <input id="search-input" name="s" placeholder="Введите название товара" type="search"
                             class="search-input mini-text">
@@ -81,109 +81,61 @@
                 @endif
             </div>
         </div>
-        <div id="search-results" style="display: none;">
-            <!-- Сюда будет загружаться результаты поиска -->
-        </div>
         {{-- Товары --}}
-        <div id="products-container"
-            style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
-            <p style="display: none;">{{ $count = 0 }}</p>
-            @if (isset($searchResults))
-                <div id="search-results">
-                    {{-- Перебираем результаты поиска --}}
-                    @foreach ($searchResults as $product)
-                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+        <div id="apriori">
+            <div style="display:grid; grid-template-columns: 20% 20% 20% 20% 20%; padding: 1% 0 1% 0; width:100%">
+                @if (isset($products))
+                    @foreach ($products as $product)
+                        <!-- Пример товара 1 -->
+                        <div  style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
                             <div style="text-align:center;">
                                 <img style="width:150px; height:150px; border-radius: 5px;"
-                                    src="{{ asset('storage/images/product/' . $product->product_image) }}"
-                                    alt=""> <br>
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt="">
+                                <br>
                             </div>
+
                             <div class="products-text-block">
                                 <div>
                                     <div class="products-name">
-                                        {{ $product->name }} <br>
+                                        {{ $product['name'] }} <br>
                                     </div>
                                     <div class="products-title">
-                                        {{ $product->title }} <br>
+                                        {{ $product['title'] }} <br>
                                     </div>
                                 </div>
                                 <div>
-                                    <form action="{{ route('products.addToCart', $product->id) }}" method="post">
-                                        @csrf
-                                        <button class="main-button" type="submit">
-                                            <div class="products-price">
-                                                {{ $product->price }}₽
-                                            </div>
-                                            <div class="v-korzinu">
-                                                В корзину
-                                            </div>
-                                        </button>
-                                        <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
-                                    </form>
+                                    <div>
+                                        <form action="{{ route('products.addToCart', $product->id) }}" method="post">
+                                            @csrf
+                                            <button class="main-button" type="submit">
+                                                <div class="products-price">
+                                                    {{ $product['price'] }} ₽
+                                                </div>
+                                                <div class="v-korzinu">
+                                                    В корзину
+                                                </div>
+                                            </button>
+                                            <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                </div>
-            @else
-                @if (isset($products))
-                    @foreach ($products as $product)
-                        @if ($count <= 4)
-                            <!-- Пример товара 1 -->
-                            <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
-                                <div style="text-align:center;">
-                                    <img style="width:150px; height:150px; border-radius: 5px;"
-                                        src="{{ asset('storage/images/product/' . $product->product_image) }}"
-                                        alt=""> <br>
-                                </div>
-
-                                <div class="products-text-block">
-                                    <div>
-                                        <div class="products-name">
-                                            {{ $product['name'] }} <br>
-                                        </div>
-                                        <div class="products-title">
-                                            {{ $product['title'] }} <br>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div>
-                                            <form action="{{ route('products.addToCart', $product->id) }}"
-                                                method="post">
-                                                @csrf
-                                                <button class="main-button" type="submit">
-                                                    <div class="products-price">
-                                                        {{ $product['price'] }} ₽
-                                                    </div>
-                                                    <div class="v-korzinu">
-                                                        В корзину
-                                                    </div>
-                                                </button>
-                                                <input type="hidden" name="redirect_url"
-                                                    value="{{ url()->current() }}">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="display: none;">{{ $count = $count + 1 }}</p>
-                        @else($count = 3)
-                            <br>
-                            <p style="display: none;">{{ $count = 0 }}</p>
-                        @endif
-                    @endforeach
                 @endif
-            @endif
+            </div>
         </div>
         <div class="px-2 pt-2 border-top">
             <h5>Доставка и оплата</h5>
             <div>
                 <p>Мы делаем всё, чтобы вы получили свой заказ как можно проще и быстрее!</p>
 
-                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента оформления заказа.
-                Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
+                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента
+                    оформления заказа.
+                    Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
 
-                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским переводом по реквизитам, которые предоставит вам курьер.</p>
+                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским
+                    переводом по реквизитам, которые предоставит вам курьер.</p>
 
                 <b>Связаться с нами: 8-800-458-44-88 (WhatsApp, Telegram)</b>
             </div>
@@ -193,35 +145,26 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
     <script>
-        // Функция для отправки запроса поиска
-        function searchProducts(event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
-            let query = document.querySelector('#search-input').value; // Получаем запрос поиска
-            let searchResultsContainer = document.getElementById('search-results');
-            let productsContainer = document.getElementById('products-container');
+        let query = document.getElementById('search-input').value; // Получаем запрос поиска
+        let productsContainer = document.getElementById('apriori');
 
-            fetch(`/products/search?s=${query}`, {
-                    method: 'GET',
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data.trim().length) {
-                        searchResultsContainer.innerHTML = data; // Вставляем результаты поиска
-                        searchResultsContainer.style.display = 'block'; // Показываем контейнер с результатами
-                        productsContainer.style.display = 'none'; // Скрываем основной контейнер с товарами
-                    } else {
-                        searchResultsContainer.innerHTML = '<p>По вашему запросу ничего не найдено.</p>';
-                        searchResultsContainer.style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    console.error('There was an error:', error);
-                    searchResultsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
-                    searchResultsContainer.style.display = 'block';
-                });
-        }
-    </script>
+        fetch(`/products/search?s=${query}`, {
+            method: 'GET',
+        })
+        .then(response => response.text())
+        .then(data => {
+            productsContainer.innerHTML = '';
+            productsContainer.innerHTML = data; // Вставляем результаты поиска
+        })
+        .catch(error => {
+            console.error('There was an error:', error);
+            productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
+        });
+    });
+</script>
 </body>
 
 </html>
