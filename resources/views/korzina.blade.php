@@ -282,19 +282,7 @@
                                 <button onclick="closeADDialog()" class="dialog-main-button">Отмена</button>
                             </div>
                         </div>
-                        @endforeach
-                        @endif
-
-                </div>
-                <div class="korzina-summa-zakaza">
-                    <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
-                        <div class="d-flex align-items-end">
-                            <h6>Итого</h6>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <h3 id="total-price">0.00₽</h3> <!-- Этот элемент будет содержать общую сумму заказа -->
-                        </div>
-                    </div>
+                        </diolog>
                 </div>
             </div>
             <div class="px-2 pt-2 border-top">
