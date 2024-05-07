@@ -14,6 +14,30 @@
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <script>
+        // Функции для работы с диалоговыми окнами
+        const ADdialog = document.getElementById('ADDialog');
+
+        function openADDialog() {
+            if (ADdialog) {
+                ADdialog.showModal();
+            } else {
+                console.error('ADDialog is not defined');
+            }
+        }
+
+        function closeADDialog() {
+            if (ADdialog) {
+                ADdialog.close();
+            } else {
+                console.error('ADDialog is not defined');
+            }
+        }
+
+        function openOKDialog() {
+            // Здесь должен быть ваш код для открытия диалогового окна об успешном выполнении операции
+            alert("Заказ успешно оформлен!");
+        }
+
         function submitAddress(event) {
             event.preventDefault();
 
@@ -279,30 +303,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
-    <script>
-        const ADdialog = document.getElementById('ADDialog');
-
-        function openADDialog() {
-            if (ADdialog) {
-                ADdialog.showModal();
-            } else {
-                console.error('ADDialog is not defined');
-            }
-        }
-
-        function closeADDialog() {
-            if (ADdialog) {
-                ADdialog.close();
-            } else {
-                console.error('ADDialog is not defined');
-            }
-        }
-
-        function endDialog() {
-            ADdialog.close();
-            dialog.showModal();
-        }
-
-    </script>
+    <script></script>
 
 </body>
