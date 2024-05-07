@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2)->default(0.00);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('completed')->nullable();
+
         });
     }
 

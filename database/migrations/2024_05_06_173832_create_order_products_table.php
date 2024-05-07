@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id'); // Изменено на product_id
             $table->integer('quantity');
             $table->timestamps();
-
             // Внешние ключи для связи с таблицами заказов и продуктов
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

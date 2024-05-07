@@ -10,6 +10,22 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
+    public function submitAddress(Request $request)
+    {
+        // Валидация данных
+        $request->validate([
+            'address' => 'required|string|max:255',
+        ]);
+
+        // Получаем адрес из запроса
+        $address = $request->input('address');
+
+        // Здесь вы можете выполнить необходимые действия с адресом,
+        // например, сохранить его в базу данных или выполнить другую логику
+
+        // Возвращаем успешный ответ в формате JSON
+        return response()->json(['success' => true]);
+    }
     public function showKorzina()
     {
         // Получаем текущего пользователя

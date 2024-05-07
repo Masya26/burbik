@@ -95,7 +95,7 @@ Route::patch('/korzina/{product}', [OrderController::class, 'updateQuantityInKor
 Route::patch('/korzina/{product}/decrease', [OrderController::class,'decreaseQuantityInKorzina'])->name('korzina.decrease');
 Route::patch('/korzina/{product}/increase', [OrderController::class,'increaseQuantityInKorzina'])->name('korzina.increase');
 Route::patch('/updateProductCount/{productId}/{countChange}', [OrderController::class,'updateProductCount'])->name('korzina.productCount');
-
+Route::post('/submit-address', [OrderController::class,'submitAddress'])->name('korzina.submitAddress');
 Route::get('/admin', Admincontroller::class)->name('admin.index');
 
 require __DIR__ . '/auth.php';
