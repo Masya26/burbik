@@ -34,6 +34,10 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::get('/search', function () {
+    return view('search');
+});
+
 Route::get('/profile', function () {
     return view('profile');
 });

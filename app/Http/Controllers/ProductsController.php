@@ -182,7 +182,6 @@ class ProductsController extends Controller
     {
         $query = $request->input('s');
         $products = Products::where('name', 'LIKE', "%{$query}%")->get();
-
-        return view('welcome', compact('products'));
+        return view('search', compact('products'));
     }
 }
