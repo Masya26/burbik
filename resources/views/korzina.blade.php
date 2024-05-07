@@ -36,10 +36,32 @@
                     if (data.quantity >= 0) {
                         quantityElement.innerText = data.quantity;
                         updateTotalPrice(); // Пересчитываем общую сумму заказа
+                        if (data.quantity === 0) {
+                            updateProductCount(productId, 1); // Возврат количества товаров
+                        }
                     }
                     if (data.quantity === 0) {
                         location.reload();
                     }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        // Функция для обновления количества товаров в базе данных
+        function updateProductCount(productId, countChange) {
+            fetch(`/updateProductCount/${productId}/${countChange}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
                 })
                 .catch(error => {
                     console.error('There has been a problem with your fetch operation:', error);
