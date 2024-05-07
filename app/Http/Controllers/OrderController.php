@@ -105,7 +105,6 @@ class OrderController extends Controller
         $productInKorzina = $korzina->products()->where('product_id', $product->id)->first();
         if ($productInKorzina && $productInKorzina->pivot->quantity > 1) {
             $productInKorzina->pivot->decrement('quantity');
-
         } elseif ($productInKorzina && $productInKorzina->pivot->quantity = 1) {
             $productInKorzina->pivot->decrement('quantity');
             $korzina->products()->detach($product->id);
@@ -130,5 +129,29 @@ class OrderController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+    public function submitOrder(Request $request)
+    {
+        // Получаем текущего пользователя
+        $user = auth()->user();
+
+        // Находим корзину текущего пользователя
+        $cart = $user->orders()->where('status', 'korzina')->first();
+
+        // Если корзина не найдена, вы можете добавить логику для обработки этого случая
+
+        // Обновляем адрес доставки в корзине
+        $cart->address = $request->input('address');
+
+        // Устанавливаем completed в true для завершения заказа
+        $cart->completed = true;
+
+        // Сохраняем изменения
+        $cart->save();
+
+        // Опционально: добавьте сообщение об успешном оформлении заказа или редирект
+
+        // Перенаправляем пользователя на страницу с подтверждением заказа или другую страницу
+        return redirect()->route('welcome');
     }
 }

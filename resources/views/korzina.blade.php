@@ -38,92 +38,75 @@
                 })
                 .then(data => {
                     // Обработка успешного ответа
-                    // Например, закрытие диалогового окна и т. д.
                     closeADDialog();
                     openOKDialog(); // Открываем диалоговое окно с сообщением об успешном оформлении заказа
+                    updateTotalPrice(); // Обновляем общую сумму заказа
                 })
                 .catch(error => {
                     console.error('There has been a problem with your fetch operation:', error);
                 });
-            // Определение функции updateQuantity
-            function updateQuantity(productId, operation) {
-                let url = `/korzina/${productId}/${operation}`;
+        }
+        // Определение функции updateQuantity
+        function updateQuantity(productId, operation) {
+            let url = `/korzina/${productId}/${operation}`;
 
-                fetch(url, {
-                        method: 'PATCH',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Data received:', data);
-                        let quantityElement = document.getElementById(`quantity-${productId}`);
-                        if (data.quantity >= 0) {
-                            quantityElement.innerText = data.quantity;
-                            updateTotalPrice(); // Пересчитываем общую сумму заказа
-                            if (data.quantity === 0) {
-                                updateProductCount(productId, 1); // Возврат количества товаров
-                            }
-                        }
+            fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    let quantityElement = document.getElementById(`quantity-${productId}`);
+                    if (data.quantity >= 0) {
+                        quantityElement.innerText = data.quantity;
+                        updateTotalPrice(); // Пересчитываем общую сумму заказа
                         if (data.quantity === 0) {
-                            location.reload();
+                            updateProductCount(productId, 1); // Возврат количества товаров
                         }
-                    })
-                    .catch(error => {
-                        console.error('There has been a problem with your fetch operation:', error);
-                    });
+                    }
+                    if (data.quantity === 0) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        // Функция для обновления количества товаров в базе данных
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            let products = document.querySelectorAll('.products-block');
+
+            // Проверяем, есть ли элементы с классом .products-block на странице
+            if (products.length > 0) {
+                products.forEach(product => {
+                    let quantityElement = product.querySelector('.products-quantity');
+                    let priceElement = product.querySelector('.products-price');
+
+                    // Проверяем, что элементы с количеством и ценой товара найдены
+                    if (quantityElement && priceElement) {
+                        let quantity = parseInt(quantityElement.innerText);
+                        let price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, ''));
+                        totalPrice += quantity * price;
+                    }
+                });
             }
 
-            // Функция для обновления количества товаров в базе данных
-            function updateProductCount(productId, countChange) {
-                fetch(`/updateProductCount/${productId}/${countChange}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .catch(error => {
-                        console.error('There has been a problem with your fetch operation:', error);
-                    });
-            }
+            // Выводим общую сумму заказа на страницу
+            document.getElementById('total-price').innerText = totalPrice.toFixed(2) + '₽';
+        }
 
-            function updateTotalPrice() {
-                let totalPrice = 0;
-                let products = document.querySelectorAll('.products-block');
-
-                // Проверяем, есть ли элементы с классом .products-block на странице
-                if (products.length > 0) {
-                    products.forEach(product => {
-                        let quantityElement = product.querySelector('.products-quantity');
-                        let priceElement = product.querySelector('.products-price');
-
-                        // Проверяем, что элементы с количеством и ценой товара найдены
-                        if (quantityElement && priceElement) {
-                            let quantity = parseInt(quantityElement.innerText);
-                            let price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, ''));
-                            totalPrice += quantity * price;
-                        }
-                    });
-                }
-
-                // Выводим общую сумму заказа на страницу
-                document.getElementById('total-price').innerText = totalPrice.toFixed(2) + '₽';
-            }
-
-            // Вызываем функцию updateTotalPrice после загрузки страницы
-            document.addEventListener('DOMContentLoaded', updateTotalPrice);
+        // Вызываем функцию updateTotalPrice после загрузки страницы
+        document.addEventListener('DOMContentLoaded', updateTotalPrice);
     </script>
 </head>
 
@@ -196,14 +179,13 @@
             <div style="display:grid; grid-template-columns: 33% 33% 33%; width:100%">
                 @if (isset($products))
                     @foreach ($products as $product)
-                        @if ($count <= 2)
-                            <!-- Пример товара 1 -->
-                            <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
-                                <div style="text-align:center">
-                                    <img style="width:150px; height:150px; border-radius: 5px;"
-                                        src="{{ asset('storage/images/product/' . $product->product_image) }}"
-                                        alt=""> <br>
-                                </div>
+                        <!-- Пример товара 1 -->
+                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                            <div style="text-align:center">
+                                <img style="width:150px; height:150px; border-radius: 5px;"
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}"
+                                    alt=""> <br>
+                            </div>
 
                             <div class="products-text-block">
                                 <div>
@@ -243,6 +225,7 @@
                         </div>
                     @endforeach
                 @endif
+
             </div>
             <div class="korzina-summa-zakaza">
                 <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
@@ -282,10 +265,12 @@
             <div>
                 <p>Мы делаем всё, чтобы вы получили свой заказ как можно проще и быстрее!</p>
 
-                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента оформления заказа.
-                Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
+                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента
+                    оформления заказа.
+                    Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
 
-                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским переводом по реквизитам, которые предоставит вам курьер.</p>
+                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским
+                    переводом по реквизитам, которые предоставит вам курьер.</p>
 
                 <b>Связаться с нами: 8-800-458-44-88 (WhatsApp, Telegram)</b>
             </div>
@@ -298,27 +283,26 @@
         const ADdialog = document.getElementById('ADDialog');
 
         function openADDialog() {
-            ADdialog.showModal();
+            if (ADdialog) {
+                ADdialog.showModal();
+            } else {
+                console.error('ADDialog is not defined');
+            }
         }
 
         function closeADDialog() {
-            ADdialog.close();
+            if (ADdialog) {
+                ADdialog.close();
+            } else {
+                console.error('ADDialog is not defined');
+            }
         }
 
         function endDialog() {
             ADdialog.close();
             dialog.showModal();
         }
-    </script>
-    <script>
-        const dialog = document.getElementById('okDialog');
 
-        function openOKDialog() {
-            dialog.showModal();
-        }
-
-        function closeOKDialog() {
-            dialog.close();
-        }
     </script>
+
 </body>
