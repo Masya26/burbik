@@ -18,6 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('generate', function () {
+    Artisan::call('storage:link');
+    echo 'ok';
+});
+
+// вставить перед этим роутом
+Route::get('{any}', function () {
+    return view('welcome');
+})->where('any', '.*');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
