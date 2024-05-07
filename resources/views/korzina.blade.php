@@ -139,7 +139,7 @@
                 @endif
             </div>
         </div>
-        <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 1%; width:100%">
+        <div style="display:grid; grid-template-columns: 70% 30%; padding: 1% 0 1% 0; width:100%">
             <div style="display:grid; grid-template-columns: 33% 33% 33%; width:100%">
                 @if (isset($products))
                     @foreach ($products as $product)
@@ -231,34 +231,48 @@
                 </dialog>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-        </script>
-        <script>
-            const ADdialog = document.getElementById('ADDialog');
+        <div class="px-2 pt-2 border-top">
+            <h5>Доставка и оплата</h5>
+            <div>
+                <p>Мы делаем всё, чтобы вы получили свой заказ как можно проще и быстрее!</p>
 
-            function openADDialog() {
-                ADdialog.showModal();
-            }
+                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента оформления заказа.
+                Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
 
-            function closeADDialog() {
-                ADdialog.close();
-            }
+                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским переводом по реквизитам, которые предоставит вам курьер.</p>
 
-            function endDialog() {
-                ADdialog.close();
-                dialog.showModal();
-            }
-        </script>
-        <script>
-            const dialog = document.getElementById('okDialog');
+                <b>Связаться с нами: 8-800-458-44-88 (WhatsApp, Telegram)</b>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+    <script>
+        const ADdialog = document.getElementById('ADDialog');
 
-            function openOKDialog() {
-                dialog.showModal();
-            }
+        function openADDialog() {
+            ADdialog.showModal();
+        }
 
-            function closeOKDialog() {
-                dialog.close();
-            }
-        </script>
+        function closeADDialog() {
+            ADdialog.close();
+        }
+
+        function endDialog() {
+            ADdialog.close();
+            dialog.showModal();
+        }
+    </script>
+    <script>
+        const dialog = document.getElementById('okDialog');
+
+        function openOKDialog() {
+            dialog.showModal();
+        }
+
+        function closeOKDialog() {
+            dialog.close();
+        }
+    </script>
 </body>

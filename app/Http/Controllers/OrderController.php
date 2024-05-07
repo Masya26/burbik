@@ -59,6 +59,7 @@ class OrderController extends Controller
     {
         $user = auth()->user();
         $korzina = $user->orders()->where('status', 'korzina')->first();
+        $product->decrement('count');
 
         $productInKorzina = $korzina->products()->where('product_id', $product->id)->first();
         if ($productInKorzina) {
@@ -78,6 +79,7 @@ class OrderController extends Controller
     {
         $user = auth()->user();
         $korzina = $user->orders()->where('status', 'korzina')->first();
+        $product->increment('count');
 
         $productInKorzina = $korzina->products()->where('product_id', $product->id)->first();
         if ($productInKorzina && $productInKorzina->pivot->quantity > 1) {

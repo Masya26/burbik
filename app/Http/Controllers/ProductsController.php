@@ -164,6 +164,7 @@ class ProductsController extends Controller
             // Увеличиваем количество товара в корзине на единицу
             $productInCart = $korzina->products()->where('product_id', $product->id)->first();
             $productInCart->pivot->update(['quantity' => $productInCart->pivot->quantity + 1]);
+            $product->decrement('count');
         } else {
             // Уменьшаем количество товара в базе данных на 1
             $product->decrement('count');
