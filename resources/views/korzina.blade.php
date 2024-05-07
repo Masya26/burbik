@@ -141,9 +141,9 @@
                 </a>
             </div>
             <div class="person-block">
-                @if(auth()->check())
+                @if (auth()->check())
                     <a href="/profile">
-                        <div class="username-block" >
+                        <div class="username-block">
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
                                 {{ auth()->user()->name }}
@@ -192,7 +192,7 @@
                                                 onclick="updateQuantity({{ $product->id }}, 'decrease')">-</button>
                                             <!-- Элемент <span> для отображения количества товара с правильным идентификатором -->
                                             <span class="products-quantity"
-                                                id="quantity-{{ $product->id }}">{{ $product->pivot->quantity }}</span>
+                                                id="quantity-{{ $product->id }}">{{ $product->quantity }}</span>
                                             <button type="button"
                                                 onclick="updateQuantity({{ $product->id }}, 'increase')">+</button>
                                         </div>
@@ -227,7 +227,8 @@
                         <div class="pt-2 pb-2">
                             <form action="" method="get" class="search-form border">
                                 <div style="display:flex; justify-content: space-between;">
-                                    <input name="s" placeholder="Введите адрес доставки" type="search" class="search-input mini-text">
+                                    <input name="s" placeholder="Введите адрес доставки" type="search"
+                                        class="search-input mini-text">
                                 </div>
                             </form>
                         </div>
@@ -267,7 +268,6 @@
             ADdialog.close();
             dialog.showModal();
         }
-
     </script>
     <script>
         const dialog = document.getElementById('okDialog');

@@ -37,6 +37,9 @@ class OrderController extends Controller
         // Удаляем продукт из корзины
         $korzina->products()->detach($product->id);
 
+        // Обновляем количество товаров в базе данных после удаления из корзины
+        $this->updateProductCount($product->id, +1);
+
         // Опционально: добавьте сообщение об успешном удалении или редирект
     }
     public function updateQuantityInKorzina(Products $product, Request $request)
@@ -70,9 +73,11 @@ class OrderController extends Controller
         // Получаем актуальное количество товара после увеличения
         $quantity = $productInKorzina ? $productInKorzina->pivot->quantity : 1;
 
+        // Добавляем атрибут quantity к товару
+        $product->quantity = $quantity;
+
         return response()->json(['quantity' => $quantity, 'message' => 'Quantity increased successfully']);
     }
-
 
     public function decreaseQuantityInKorzina(Products $product)
     {
@@ -88,6 +93,9 @@ class OrderController extends Controller
 
         // Получаем актуальное количество товара после уменьшения
         $quantity = $productInKorzina ? $productInKorzina->pivot->quantity : 0;
+
+        // Добавляем атрибут quantity к товару
+        $product->quantity = $quantity;
 
         return response()->json(['quantity' => $quantity, 'message' => 'Quantity decreased successfully']);
     }

@@ -70,6 +70,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::patch('/{product}', [ProductsController::class, 'update'])->name('products.update');
     Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
 });
+Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
 // Для продуктов
 
 Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
