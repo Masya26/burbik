@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Корзина</title>
     {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
     {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -75,7 +75,7 @@
 </head>
 
 <body>
-    <div style="margin: 2% 10% 0 10%;" class="shadow p-3 mb-5 bg-body rounded">
+    <div style="margin: 2% 7% 0 7%;" class="shadow p-3 mb-5 bg-body rounded">
         <div style="display:grid; grid-template-columns: 10% 20% 40% 15% 15%;" class="border-bottom pt-2 pb-2">
             <div class="pb-2 logo-block">
                 <a href="/">
@@ -140,50 +140,52 @@
             </div>
         </div>
         <div style="display:grid; grid-template-columns: 70% 30%; padding-top: 1%; width:100%">
-            <div style="display:grid; grid-template-columns: auto auto auto; width:100%">
-                <p style="display: none;">{{ $count = 0 }}</p>
+            <div style="display:grid; grid-template-columns: 33% 33% 33%; width:100%">
                 @if (isset($products))
                     @foreach ($products as $product)
-                        @if ($count <= 2)
-                            <!-- Пример товара 1 -->
-                            <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
-                                <div style="text-align:center">
-                                    <img style="width:150px; height:150px; border-radius: 5px;"
-                                        src="{{ 'images/product/' . $product->product_image }}" alt="">
-                                </div>
+                        <!-- Пример товара 1 -->
+                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                            <div style="text-align:center">
+                                <img style="width:150px; height:150px; border-radius: 5px;"
+                                    src="{{ 'images/product/' . $product->product_image }}" alt="">
+                            </div>
 
-                                <div class="products-text-block">
-                                    <div>
-                                        <div class="products-name">
-                                            {{ $product['name'] }} <br>
-                                        </div>
-                                        <div class="products-title">
-                                            {{ $product['title'] }} <br>
-                                        </div>
-                                        <div class="products-price"> <!-- Добавляем класс .products-price -->
-                                            Цена: {{ $product['price'] }}₽
-                                        </div>
+                            <div class="products-text-block">
+                                <div>
+                                    <div class="products-name">
+                                        {{ $product['name'] }} <br>
                                     </div>
-                                    <div class="d-flex justify-content-between" style="width: 210px; height:35px; background-color: rgb(80, 200, 255); border-radius: 5px;">
-                                        <div class="d-flex align-items-center">
-                                            <button type="button" style="border: none; border-radius: 5px; background-color: rgb(80, 200, 255);"
-                                                onclick="updateQuantity({{ $product->id }}, 'decrease')">—</button>
-                                            <!-- Элемент <span> для отображения количества товара с правильным идентификатором -->
-                                        </div>
-                                            <span class="products-quantity"
-                                                id="quantity-{{ $product->id }}">{{ $product->pivot->quantity }}</span>
-                                        <div class="d-flex align-items-center">
-                                            <button type="button" style="border: none; border-radius: 5px; background-color: rgb(80, 200, 255);"
-                                                onclick="updateQuantity({{ $product->id }}, 'increase')">+</button>
-                                        </div>
+                                    <div class="products-title">
+                                        {{ $product['title'] }} <br>
+                                    </div>
+                                    <div class="products-price"> <!-- Добавляем класс .products-price -->
+                                        Цена: {{ $product['price'] }}₽
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between"
+                                    style="width: 210px; height:35px; background-color: rgb(11, 178, 255); border-radius: 10px; color:white;">
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="count-product-button"
+                                            onclick="updateQuantity({{ $product->id }}, 'decrease')">
+                                            —
+                                        </button>
+                                        <!-- Элемент <span> для отображения количества товара с правильным идентификатором -->
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="products-quantity" id="quantity-{{ $product->id }}">
+                                            {{ $product->pivot->quantity }}
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="count-product-button"
+                                            style="font-size: 21px; border-radius: 0 10px 10px 0;"
+                                            onclick="updateQuantity({{ $product->id }}, 'increase')">
+                                            +
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <p style="display: none;">{{ $count = $count + 1 }}</p>
-                        @else($count = 2)
-                            <br>
-                            <p style="display: none;">{{ $count = 0 }}</p>
-                        @endif
+                        </div>
                     @endforeach
                 @endif
             </div>
@@ -197,7 +199,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center pb-3">
-                    <button onclick="openADDialog()" class="main-button" style="width: 80%">
+                    <button onclick="openADDialog()" class="main-button" style="width: 90%">
                         Оформить заказ
                     </button>
                 </div>

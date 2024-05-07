@@ -82,6 +82,10 @@ class OrderController extends Controller
         $productInKorzina = $korzina->products()->where('product_id', $product->id)->first();
         if ($productInKorzina && $productInKorzina->pivot->quantity > 1) {
             $productInKorzina->pivot->decrement('quantity');
+
+        } elseif ($productInKorzina && $productInKorzina->pivot->quantity = 1) {
+            $productInKorzina->pivot->decrement('quantity');
+            $korzina->products()->detach($product->id);
         } else {
             $korzina->products()->detach($product->id);
         }

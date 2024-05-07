@@ -30,15 +30,14 @@
                             Категории товаров
                         </div>
                     </button>
-
                     <div class="dropdown-block">
                         @if (isset($categories))
-                        @foreach ($categories as $category)
-                        <div class="category">
-                            <a href="/">{{ $category->title }}</a>
-                            <br>
-                        </div>
-                        @endforeach
+                            @foreach ($categories as $category)
+                                <div class="category">
+                                    <a href="/">{{ $category->title }}</a>
+                                    <br>
+                                </div>
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -62,12 +61,12 @@
                 </a>
             </div>
             <div class="person-block">
-                @if(auth()->check())
+                @if (auth()->check())
                     <a href="/profile">
-                        <div class="username-block" >
+                        <div class="username-block">
                             <div style="display:grid; grid-template-columns: 15% auto;">
                                 <i class="bi bi-person"></i>
-                                {{auth()->user()->name }}
+                                {{ auth()->user()->name }}
                             </div>
                         </div>
                     </a>
@@ -84,60 +83,57 @@
         </div>
 
         {{-- Товары --}}
-        <div style="display:grid; grid-template-columns: auto auto auto auto auto; padding-top: 3%; width:100%">
-            <p style="display: none;">{{ $count = 0 }}</p>
-
-
+        <div style="display:grid; grid-template-columns: 20% 20% 20% 20% 20%; padding: 1% 0 1% 0; width:100%">
             @if (isset($products))
                 @foreach ($products as $product)
-                    @if ($count <= 4)
-                        <!-- Пример товара 1 -->
-                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
-                            <div style="text-align:center;">
-                                <img style="width:150px; height:150px; border-radius: 5px;"
-                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt=""> <br>
-                            </div>
+                    <!-- Пример товара 1 -->
+                    <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                        <div style="text-align:center;">
+                            <img style="width:150px; height:150px; border-radius: 5px;"
+                                src="{{ asset('storage/images/product/' . $product->product_image) }}" alt="">
+                            <br>
+                        </div>
 
-                            <div class="products-text-block">
-                                <div>
-                                    <div class="products-name">
-                                        {{ $product['name'] }} <br>
-                                    </div>
-                                    <div class="products-title">
-                                        {{ $product['title'] }} <br>
-                                    </div>
+                        <div class="products-text-block">
+                            <div>
+                                <div class="products-name">
+                                    {{ $product['name'] }} <br>
                                 </div>
-                                <div>
-                                    <div>
-                                        <form action="{{ route('products.addToCart', $product->id) }}" method="post">
-                                            @csrf
-                                            <button class="main-button" type="submit">
-                                                <div class="products-price">
-                                                    {{ $product['price'] }} ₽
-                                                </div>
-                                                <div class="v-korzinu">
-                                                    В корзину
-                                                </div>
-                                            </button>
-                                            <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
-                                        </form>
-                                    </div>
+                                <div class="products-title">
+                                    {{ $product['title'] }} <br>
+                                </div>
+                            </div>
+                            <div class="ps-1">
+                                <div class="d-flex align-items-center">
+                                    <form action="{{ route('products.addToCart', $product->id) }}" method="post">
+                                        @csrf
+                                        <button class="main-button" type="submit">
+                                            <div class="products-price">
+                                                {{ $product['price'] }} ₽
+                                            </div>
+                                            <div class="v-korzinu">
+                                                В корзину
+                                            </div>
+                                        </button>
+                                        <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <p style="display: none;">{{ $count = $count + 1 }}</p>
-                    @else($count = 3)
-                        <br>
-                        <p style="display: none;">{{ $count = 0 }}</p>
-                    @endif
+                    </div>
                 @endforeach
             @endif
+        </div>
+        <div class="px-2 pt-2 border-top">
+            <h5>Доставка и оплата</h5>
+            <div>
+                Доставка товара осуществляется
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
-
 </body>
 
 </html>

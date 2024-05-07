@@ -5,14 +5,14 @@
         <!-- Name -->
         <div>
             <x-input-label style="color: white;" for="name" :value="__('Имя пользователя')" />
-            <x-text-input id="name" style="background-color: white; border-color: white;" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-text-input id="name" style="background-color: white; border-color: white; color:black" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label style="color: white;" for="email" :value="__('Email')" />
-            <x-text-input id="email" style="background-color: white; border-color: white;" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-text-input id="email" style="background-color: white; border-color: white; color:black" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -20,7 +20,7 @@
         <div class="mt-4">
             <x-input-label style="color: white;" for="password" :value="__('Пароль')" />
 
-            <x-text-input id="password" style="background-color: white; border-color: white;" class="block mt-1 w-full"
+            <x-text-input id="password" style="background-color: white; border-color: white;  color:black" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
@@ -32,7 +32,7 @@
         <div class="mt-4">
             <x-input-label style="color: white;" for="password_confirmation" :value="__('Подтвердите пароль')" />
 
-            <x-text-input id="password_confirmation" style="background-color: white; border-color: white;" class="block mt-1 w-full"
+            <x-text-input id="password_confirmation" style="background-color: white; border-color: white;  color:black" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
