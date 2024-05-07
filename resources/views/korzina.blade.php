@@ -304,41 +304,26 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
         </script>
-        <script></script>
+        <script>
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
-        <<<<<<< HEAD=======function openADDialog() { ADdialog.showModal(); } function closeADDialog() {
-            ADdialog.close(); } function endDialog() { ADdialog.close(); dialog.showModal(); } </script>
-            <script>
-                const dialog = document.getElementById('okDialog');
+                let query = document.getElementById('search-input').value; // Получаем запрос поиска
+                let productsContainer = document.getElementById('apriori');
 
-                function openOKDialog() {
-                    dialog.showModal();
-                }
-
-                function closeOKDialog() {
-                    dialog.close();
-                }
-            </script>
-            <script>
-                document.getElementById('searchForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
-
-                    let query = document.getElementById('search-input').value; // Получаем запрос поиска
-                    let productsContainer = document.getElementById('apriori');
-
-                    fetch(`/products/search?s=${query}`, {
-                            method: 'GET',
-                        })
-                        .then(response => response.text())
-                        .then(data => {
-                            productsContainer.innerHTML = '';
-                            productsContainer.innerHTML = data; // Вставляем результаты поиска
-                        })
-                        .catch(error => {
-                            console.error('There was an error:', error);
-                            productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
-                        });
-                });
-            </script>
-            >>>>>>> 155d9916d6ebaebe50fa4dc0b7b4f20d5bd9d67b
+                fetch(`/products/search?s=${query}`, {
+                        method: 'GET',
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        productsContainer.innerHTML = '';
+                        productsContainer.innerHTML = data; // Вставляем результаты поиска
+                    })
+                    .catch(error => {
+                        console.error('There was an error:', error);
+                        productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
+                    });
+            });
+        </script>
+        >>>>>>> 155d9916d6ebaebe50fa4dc0b7b4f20d5bd9d67b
 </body>
