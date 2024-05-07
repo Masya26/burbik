@@ -16,8 +16,11 @@ class OrderController extends Controller
         $user = auth()->user();
 
         // Находим корзину текущего пользователя
+        if($user = auth()->user()){
         $cart = $user->orders()->where('status', 'korzina')->first();
-
+        } else{
+            return redirect()->route('login');
+        }
         // Если корзина не найдена, вы можете добавить логику для обработки этого случая
 
         // Получаем продукты в корзине
