@@ -13,125 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
-    <script>
-        // Функции для работы с диалоговыми окнами
-        const ADdialog = document.getElementById('ADDialog');
-
-        function openADDialog() {
-            if (ADdialog) {
-                ADdialog.showModal();
-            } else {
-                console.error('ADDialog is not defined');
-            }
-        }
-
-        function closeADDialog() {
-            if (ADdialog) {
-                ADdialog.close();
-            } else {
-                console.error('ADDialog is not defined');
-            }
-        }
-
-        function openOKDialog() {
-            // Здесь должен быть ваш код для открытия диалогового окна об успешном выполнении операции
-            alert("Заказ успешно оформлен!");
-        }
-
-        function submitAddress(event) {
-            event.preventDefault();
-
-            let address = document.getElementById('address-input').value;
-
-            fetch('{{ route('korzina.submitAddress') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                    body: JSON.stringify({
-                        address: address
-                    }),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Network response was not ok');
-                    }
-                })
-                .then(data => {
-                    // Обработка успешного ответа
-                    closeADDialog();
-                    openOKDialog(); // Открываем диалоговое окно с сообщением об успешном оформлении заказа
-                    updateTotalPrice(); // Обновляем общую сумму заказа
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
-        }
-        // Определение функции updateQuantity
-        function updateQuantity(productId, operation) {
-            let url = `/korzina/${productId}/${operation}`;
-
-            fetch(url, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Data received:', data);
-                    let quantityElement = document.getElementById(`quantity-${productId}`);
-                    if (data.quantity >= 0) {
-                        quantityElement.innerText = data.quantity;
-                        updateTotalPrice(); // Пересчитываем общую сумму заказа
-                        if (data.quantity === 0) {
-                            updateProductCount(productId, 1); // Возврат количества товаров
-                        }
-                    }
-                    if (data.quantity === 0) {
-                        location.reload();
-                    }
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
-        }
-
-        // Функция для обновления количества товаров в базе данных
-        function updateTotalPrice() {
-            let totalPrice = 0;
-            let products = document.querySelectorAll('.products-block');
-
-            // Проверяем, есть ли элементы с классом .products-block на странице
-            if (products.length > 0) {
-                products.forEach(product => {
-                    let quantityElement = product.querySelector('.products-quantity');
-                    let priceElement = product.querySelector('.products-price');
-
-                    // Проверяем, что элементы с количеством и ценой товара найдены
-                    if (quantityElement && priceElement) {
-                        let quantity = parseInt(quantityElement.innerText);
-                        let price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, ''));
-                        totalPrice += quantity * price;
-                    }
-                });
-            }
-
-            // Выводим общую сумму заказа на страницу
-            document.getElementById('total-price').innerText = totalPrice.toFixed(2) + '₽';
-        }
-
-        // Вызываем функцию updateTotalPrice после загрузки страницы
-        document.addEventListener('DOMContentLoaded', updateTotalPrice);
-    </script>
 </head>
 
 <body>
@@ -203,9 +84,11 @@
         <div id="apriori">
             <div style="display:grid; grid-template-columns: 70% 30%; padding: 1% 0 1% 0; width:100%">
                 <div style="display:grid; grid-template-columns: 33% 33% 33%; width:100%">
+
                     @if (isset($products))
                         @foreach ($products as $product)
                             <!-- Пример товара 1 -->
+
                             <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
                                 <div style="text-align:center">
                                     <img style="width:150px; height:150px; border-radius: 5px;"
@@ -252,77 +135,151 @@
                         @endforeach
                     @endif
                 </div>
-                <div class="korzina-summa-zakaza">
-                    <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
-                        <div class="d-flex align-items-end">
-                            <h6>Итого</h6>
+                <form action="{{ route('orders.store') }}" method="POST" id="order-form">
+                    @csrf
+                    <div class="korzina-summa-zakaza">
+                        <div class="form-group">
+                            <label for="address">Адрес доставки</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                placeholder="Введите адрес доставки" required>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <h3 id="total-price">0.00₽</h3> <!-- Этот элемент будет содержать общую сумму заказа -->
+                        <div class="d-flex justify-content-between ps-4 pe-4 pt-3">
+                            <div class="d-flex align-items-end">
+                                <h6>Итого</h6>
+                            </div>
+                            <div>
+                                <input type="hidden" name="total-price" id="total-price-input">
+                                <span id="total-price-display"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center pb-3">
-                        <button onclick="openADDialog()" class="main-button" style="width: 90%">
+                        <button type="submit" class="main-button" style="width: 90%">
                             Оформить заказ
                         </button>
                     </div>
-                    <dialog id="ADDialog" class="dialog-adress">
-                        <div>
-                            Для завершения оформления заказа введите адрес доставки:
-                            <div class="pt-2 pb-2">
-                                <form id="address-form" onsubmit="submitAddress(event)" class="search-form border">
-                                    <div style="display:flex; justify-content: space-between;">
-                                        <input id="address-input" name="address" placeholder="Введите адрес доставки"
-                                            type="text" class="search-input mini-text" required>
-                                    </div>
-                                    <button type="submit" class="dialog-main-button">Заказать</button>
-                                </form>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <button onclick="closeADDialog()" class="dialog-main-button">Отмена</button>
-                            </div>
-                        </div>
-                        </diolog>
-                </div>
+                </form>
             </div>
-            <div class="px-2 pt-2 border-top">
-                <h5>Доставка и оплата</h5>
-                <div>
-                    <p>Мы делаем всё, чтобы вы получили свой заказ как можно проще и быстрее!</p>
 
-                    <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента
-                        оформления заказа.
-                        Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
+        </div>
+        <div class="px-2 pt-2 border-top">
+            <h5>Доставка и оплата</h5>
+            <div>
+                <p>Мы делаем всё, чтобы вы получили свой заказ как можно проще и быстрее!</p>
 
-                    <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским
-                        переводом по реквизитам, которые предоставит вам курьер.</p>
+                <p>Доставка осуществляется курьером по указанному вами адресу в течение нескольких часов с момента
+                    оформления заказа.
+                    Пожалуйста, при оформлении заказа, укажите точный адрес доставки. </p>
 
-                    <b>Связаться с нами: 8-800-458-44-88 (WhatsApp, Telegram)</b>
-                </div>
+                <p>Оплата производится наличными курьеру при получении заказа. Также возможна оплата банковским
+                    переводом по реквизитам, которые предоставит вам курьер.</p>
+
+                <b>Связаться с нами: 8-800-458-44-88 (WhatsApp, Telegram)</b>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-        </script>
-        <script>
-            document.getElementById('searchForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+    <script>
+        function updateQuantity(productId, operation) {
+            let url = `/korzina/${productId}/${operation}`;
 
-                let query = document.getElementById('search-input').value; // Получаем запрос поиска
-                let productsContainer = document.getElementById('apriori');
+            fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    let quantityElement = document.getElementById(`quantity-${productId}`);
+                    let priceElement = document.getElementById(`price-${productId}`);
 
-                fetch(`/products/search?s=${query}`, {
-                        method: 'GET',
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        productsContainer.innerHTML = '';
-                        productsContainer.innerHTML = data; // Вставляем результаты поиска
-                    })
-                    .catch(error => {
-                        console.error('There was an error:', error);
-                        productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
-                    });
+                    if (data.quantity !== undefined && quantityElement) {
+                        quantityElement.innerText = data.quantity;
+                        if (data.quantity === 0) {
+                            // Удаляем элемент товара из DOM
+                            let productBlock = document.getElementById(`product-${productId}`);
+                            if (productBlock) {
+                                productBlock.remove();
+                            }
+                        }
+                    }
+
+                    updateTotalPrice();
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        // Определение функции updateTotalPrice
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            let products = document.querySelectorAll('.products-block');
+
+            products.forEach(product => {
+                let quantityElement = product.querySelector('.products-quantity');
+                let priceElement = product.querySelector('.products-price');
+
+                if (quantityElement && priceElement) {
+                    let quantity = parseInt(quantityElement.innerText);
+                    let price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, ''));
+                    totalPrice += quantity * price;
+                }
             });
-        </script>
+
+            // Обновляем общую сумму заказа в скрытом поле
+            document.getElementById('total-price-input').value = totalPrice.toFixed(2);
+            // Обновляем отображение общей суммы заказа
+            document.getElementById('total-price-display').textContent = totalPrice.toFixed(2) + '₽';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обновляем общую цену при загрузке страницы
+            updateTotalPrice();
+
+            // Находим форму и добавляем обработчик события отправки
+            const form = document.getElementById('order-form');
+            form.addEventListener('submit', function(event) {
+                // Получаем текущее значение общей цены
+                const totalPrice = document.getElementById('total-price-input').value;
+                // Устанавливаем это значение в скрытое поле формы
+                document.querySelector('input[name="total_price"]').value = totalPrice;
+                // Останавливаем отправку формы
+                event.preventDefault();
+                // Продолжаем отправку формы
+                return true;
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+
+            let query = document.getElementById('search-input').value; // Получаем запрос поиска
+            let productsContainer = document.getElementById('apriori');
+
+            fetch(`/products/search?s=${query}`, {
+                    method: 'GET',
+                })
+                .then(response => response.text())
+                .then(data => {
+                    productsContainer.innerHTML = '';
+                    productsContainer.innerHTML = data; // Вставляем результаты поиска
+                })
+                .catch(error => {
+                    console.error('There was an error:', error);
+                    productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
+                });
+        });
+    </script>
 </body>

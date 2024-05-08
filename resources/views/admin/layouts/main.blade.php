@@ -62,7 +62,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
+                            <a href="{{ route('orders.admin')}}" class="nav-link">
                                 <i class="fas fa-shopping-bag"></i>
                                 <p>
                                     Заказы

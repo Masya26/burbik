@@ -33,10 +33,12 @@
                     <div class="dropdown-block">
                         @if (isset($categories))
                             @foreach ($categories as $category)
-                                <div class="category">
-                                    <a href="/">{{ $category->title }}</a>
-                                    <br>
-                                </div>
+                                @if ($category->id)
+                                    <div class="category" data-category="{{ $category->id }}">
+                                        <a href="#" data-category="{{ $category->id }}">{{ $category->title }}</a>
+                                        <br>
+                                    </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -87,10 +89,11 @@
                 @if (isset($products))
                     @foreach ($products as $product)
                         <!-- Пример товара 1 -->
-                        <div  style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
+                        <div style="margin: 0 auto; padding: 5% 2% 2% 2%;" class="products-block">
                             <div style="text-align:center;">
                                 <img style="width:150px; height:150px; border-radius: 5px;"
-                                    src="{{ asset('storage/images/product/' . $product->product_image) }}" alt="">
+                                    src="{{ asset('storage/images/product/' . $product->product_image) }}"
+                                    alt="">
                                 <br>
                             </div>
 
@@ -146,25 +149,61 @@
     </script>
     <script>
         document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
-        let query = document.getElementById('search-input').value; // Получаем запрос поиска
-        let productsContainer = document.getElementById('apriori');
+            let query = document.getElementById('search-input').value; // Получаем запрос поиска
+            let productsContainer = document.getElementById('apriori');
 
-        fetch(`/products/search?s=${query}`, {
-            method: 'GET',
-        })
-        .then(response => response.text())
-        .then(data => {
-            productsContainer.innerHTML = '';
-            productsContainer.innerHTML = data; // Вставляем результаты поиска
-        })
-        .catch(error => {
-            console.error('There was an error:', error);
-            productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
+            fetch(`/products/search?s=${query}`, {
+                    method: 'GET',
+                })
+                .then(response => response.text())
+                .then(data => {
+                    productsContainer.innerHTML = '';
+                    productsContainer.innerHTML = data; // Вставляем результаты поиска
+                })
+                .catch(error => {
+                    console.error('There was an error:', error);
+                    productsContainer.innerHTML = '<p>Произошла ошибка при выполнении поиска.</p>';
+                });
         });
-    });
-</script>
+    </script>
+    <script>
+        function loadProductsByCategory(categoryId) {
+            console.log('categoryId:', categoryId); // Добавляем отладочный вывод
+            categoryId = parseInt(categoryId); // Преобразуем categoryId в число
+
+            let categoryContainer = document.getElementById('apriori');
+            if (!isNaN(categoryId) && categoryId !== null) { // Проверяем, что categoryId - это число и не является null
+                fetch(`/products/by-category/${categoryId}`, { // Здесь добавляем закрывающую скобку
+                        method: 'GET',
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        categoryContainer.innerHTML = '';
+                        categoryContainer.innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Произошла ошибка:', error);
+                        document.getElementById('apriori').innerHTML = '<p>Произошла ошибка при загрузке товаров.</p>';
+                    });
+
+            } else {
+                console.error('Идентификатор категории равен null или не является числом.');
+            }
+
+        }
+
+        document.querySelectorAll('.category').forEach(category => {
+            category.addEventListener('click', function(event) {
+                event.preventDefault();
+                let categoryId = event.currentTarget.getAttribute(
+                    'data-category'); // Получаем атрибут data-category из текущего элемента
+                console.log('categoryId before:', categoryId); // Добавляем отладочный вывод
+                loadProductsByCategory(categoryId);
+            });
+        });
+    </script>
 </body>
 
 </html>

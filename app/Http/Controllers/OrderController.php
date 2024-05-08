@@ -26,6 +26,7 @@ class OrderController extends Controller
         // Возвращаем успешный ответ в формате JSON
         return response()->json(['success' => true]);
     }
+
     public function showKorzina()
     {
         // Получаем текущего пользователя
@@ -34,10 +35,15 @@ class OrderController extends Controller
         // Находим корзину текущего пользователя
         $cart = $user->orders()->where('status', 'korzina')->first();
 
-        // Если корзина не найдена, вы можете добавить логику для обработки этого случая
+        // Если корзина не найдена или у нее нет незавершенных заказов, вернем пустую коллекцию продуктов
+        if (!$cart || !$cart->products()->exists()) {
+            return view('korzina', ['products' => collect()]);
+        }
 
-        // Получаем продукты в корзине
-        $products = $cart->products;
+        // Получаем продукты в корзине, где заказы еще не завершены
+        $products = $cart->products()->whereHas('orders', function ($query) {
+            $query->where('completed', false);
+        })->get();
 
         // Отображаем представление с содержимым корзины и передаем туда данные о продуктах
         return view('korzina', compact('products'));
@@ -58,6 +64,7 @@ class OrderController extends Controller
 
         // Опционально: добавьте сообщение об успешном удалении или редирект
     }
+
     public function updateQuantityInKorzina(Products $product, Request $request)
     {
         // Получаем текущего пользователя
@@ -74,6 +81,7 @@ class OrderController extends Controller
         // Перенаправляем пользователя на страницу корзины
         return redirect()->route('korzina.show');
     }
+
     public function increaseQuantityInKorzina(Products $product)
     {
         $user = auth()->user();
@@ -105,7 +113,7 @@ class OrderController extends Controller
         $productInKorzina = $korzina->products()->where('product_id', $product->id)->first();
         if ($productInKorzina && $productInKorzina->pivot->quantity > 1) {
             $productInKorzina->pivot->decrement('quantity');
-        } elseif ($productInKorzina && $productInKorzina->pivot->quantity = 1) {
+        } elseif ($productInKorzina && $productInKorzina->pivot->quantity == 1) {
             $productInKorzina->pivot->decrement('quantity');
             $korzina->products()->detach($product->id);
         } else {
@@ -120,6 +128,7 @@ class OrderController extends Controller
 
         return response()->json(['quantity' => $quantity, 'message' => 'Quantity decreased successfully']);
     }
+
     public function updateProductCount($productId, $countChange)
     {
         $product = Products::find($productId);
@@ -130,28 +139,58 @@ class OrderController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function submitOrder(Request $request)
+
+    public function store(Request $request)
     {
         // Получаем текущего пользователя
         $user = auth()->user();
 
-        // Находим корзину текущего пользователя
-        $cart = $user->orders()->where('status', 'korzina')->first();
+        // Находим текущий заказ пользователя
+        $currentOrder = $user->orders()->where('status', 'korzina')->first();
 
-        // Если корзина не найдена, вы можете добавить логику для обработки этого случая
+        // Если текущий заказ существует, то...
+        if ($currentOrder) {
+            // Получаем данные текущего заказа
+            $address = $request->input('address');
+            $totalPrice = $request->input('total-price');
+            // Создаем новый заказ
+            $newOrder = new Order();
+            $newOrder->user_id = $user->id;
+            $newOrder->address = $address;
+            $newOrder->status = 'korzina';
+            $newOrder->completed = true;
+            $newOrder->total_price = $totalPrice;
+            $newOrder->save();
 
-        // Обновляем адрес доставки в корзине
-        $cart->address = $request->input('address');
+            // Получаем продукты из текущего заказа
+            $products = $currentOrder->products()->get();
 
-        // Устанавливаем completed в true для завершения заказа
-        $cart->completed = true;
+            // Переносим продукты из текущего заказа в новый заказ
+            foreach ($products as $product) {
+                $quantity = $product->pivot->quantity; // Количество продукта в текущем заказе
+                $newOrder->products()->attach($product->id, ['quantity' => $quantity]);
+            }
 
-        // Сохраняем изменения
-        $cart->save();
+            // Удаляем текущий заказ
+            $currentOrder->delete();
 
-        // Опционально: добавьте сообщение об успешном оформлении заказа или редирект
+            // Перенаправляем пользователя на страницу с подтверждением заказа или другую страницу
+            return redirect()->route('index.welcome');
+        } else {
+            
 
-        // Перенаправляем пользователя на страницу с подтверждением заказа или другую страницу
-        return redirect()->route('welcome');
+        }
+    }
+    public function admin()
+    {
+        $orders = Order::all();
+        return view('orders.index', [
+            'orders' => $orders->reverse(),
+        ]);
+    }
+    public function destroy(Order $order)
+    {
+        $order->delete();
+        return redirect()->route('orders.admin');
     }
 }

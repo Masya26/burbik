@@ -88,5 +88,12 @@ Route::patch('/korzina/{product}/increase', [OrderController::class, 'increaseQu
 Route::patch('/updateProductCount/{productId}/{countChange}', [OrderController::class, 'updateProductCount'])->name('korzina.productCount');
 Route::post('/submit-address', [OrderController::class, 'submitAddress'])->name('korzina.submitAddress');
 Route::get('/admin', Admincontroller::class)->name('admin.index');
+Route::get('/products/by-category/{category}', [ProductsController::class, 'getProductsByCategory'])->name('products.byCategory');
+Route::group(['prefix' => 'order'], function () {
+
+    Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::get('/', [OrderController::class, 'admin'])->name('orders.admin');
+});
 
 require __DIR__ . '/auth.php';

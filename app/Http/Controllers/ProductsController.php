@@ -32,10 +32,25 @@ class ProductsController extends Controller
     public function indexkor()
     {
         $categories = Category::all();
-        $products = Products::with('category')->get();
+
+        // Получаем текущего пользователя
+        $user = auth()->user();
+
+        // Находим корзину текущего пользователя
+        $cart = $user->orders()->where('status', 'korzina')->first();
+
+        if ($cart) {
+            // Получаем продукты в корзине, где столбец completed равен false
+            $products = $cart->products()
+                ->wherePivot('completed', false)
+                ->get();
+        } else {
+            // Обработка случая, когда корзина не найдена
+            $products = collect(); // Пустая коллекция, если корзина не найдена
+        }
 
         return view('korzina', [
-            'products' => $products->reverse(),
+            'products' => $products,
             'categories' => $categories,
         ]);
     }
@@ -157,7 +172,7 @@ class ProductsController extends Controller
         $user = auth()->user();
 
         // Получаем корзину текущего пользователя
-        $korzina = $user->orders()->where('status', 'korzina')->firstOrCreate(['status' => 'korzina']);
+        $korzina = $user->orders()->where('status', 'korzina')->where('completed', false)->firstOrCreate(['status' => 'korzina']);
 
         // Проверяем, есть ли товар уже в корзине пользователя
         if ($korzina->products->contains($product->id)) {
@@ -183,5 +198,10 @@ class ProductsController extends Controller
         $query = $request->input('s');
         $products = Products::where('name', 'LIKE', "%{$query}%")->get();
         return view('search', compact('products'));
+    }
+    public function getProductsByCategory($categoryId)
+    {
+        $products = Products::where('category_id', $categoryId)->get();
+        return view('by-category', ['products' => $products]);
     }
 }
