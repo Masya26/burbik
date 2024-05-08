@@ -18,6 +18,13 @@ class Admincontroller extends Controller
             'user_count' => $user_count,
         ]);
     }
+    public function usersForAdmins()
+    {
+        $users = User::all();
+        return view('admin.users.index', [
+            'users' => $users->reverse(),
+        ]);
+    }
 
 
 

@@ -87,6 +87,7 @@ Route::patch('/korzina/{product}/increase', [OrderController::class, 'increaseQu
 Route::patch('/updateProductCount/{productId}/{countChange}', [OrderController::class, 'updateProductCount'])->name('korzina.productCount');
 Route::post('/submit-address', [OrderController::class, 'submitAddress'])->name('korzina.submitAddress');
 Route::get('/admin', Admincontroller::class)->name('admin.index');
+Route::get('/users', [Admincontroller::class, 'usersForAdmins'])->name('admin.users.index');
 Route::get('/products/by-category/{category}', [ProductsController::class, 'getProductsByCategory'])->name('products.byCategory');
 Route::group(['prefix' => 'order'], function () {
 

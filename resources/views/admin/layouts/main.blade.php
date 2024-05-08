@@ -95,18 +95,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
-                                <i class="nav-icon far fa-image"></i>
-                                <p>
-                                    Теги
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
+                            <a href="{{ route('admin.users.index')}}" class="nav-link">
 
                                 <i class="fas fa-users"></i>
                                 <p>
