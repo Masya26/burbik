@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -34,6 +31,10 @@ Route::get('/login', function () {
 
 Route::get('/register', function () {
     return view('register');
+});
+
+Route::get('/search', function () {
+    return view('search');
 });
 
 Route::get('/profile', function () {
@@ -72,6 +73,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::patch('/{product}', [ProductsController::class, 'update'])->name('products.update');
     Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
 });
+Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
 // Для продуктов
 
 Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
@@ -80,9 +82,17 @@ Route::get('/', [ProductsController::class, 'index'])->name('index.welcome');
 Route::get('/korzina', [OrderController::class, 'showKorzina'])->name('korzina.show');
 Route::delete('/korzina/{product}', [OrderController::class, 'removeFromKorzina'])->name('korzina.remove');
 Route::patch('/korzina/{product}', [OrderController::class, 'updateQuantityInKorzina'])->name('korzina.updateQuantity');
-Route::patch('/korzina/{product}/decrease', [OrderController::class,'decreaseQuantityInKorzina'])->name('korzina.decrease');
-Route::patch('/korzina/{product}/increase', [OrderController::class,'increaseQuantityInKorzina'])->name('korzina.increase');
-
+Route::patch('/korzina/{product}/decrease', [OrderController::class, 'decreaseQuantityInKorzina'])->name('korzina.decrease');
+Route::patch('/korzina/{product}/increase', [OrderController::class, 'increaseQuantityInKorzina'])->name('korzina.increase');
+Route::patch('/updateProductCount/{productId}/{countChange}', [OrderController::class, 'updateProductCount'])->name('korzina.productCount');
+Route::post('/submit-address', [OrderController::class, 'submitAddress'])->name('korzina.submitAddress');
 Route::get('/admin', Admincontroller::class)->name('admin.index');
+Route::get('/products/by-category/{category}', [ProductsController::class, 'getProductsByCategory'])->name('products.byCategory');
+Route::group(['prefix' => 'order'], function () {
+
+    Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::get('/', [OrderController::class, 'admin'])->name('orders.admin');
+});
 
 require __DIR__ . '/auth.php';
