@@ -44,9 +44,9 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>{{ $orders_count }}<sup style="font-size: 20px">%</sup></h3>
 
-                            <p>Статистика заказов</p>
+                            <p>Количество заказов</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
