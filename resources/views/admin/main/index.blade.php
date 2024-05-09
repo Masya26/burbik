@@ -10,7 +10,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('index.welcome')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index.welcome') }}">Home</a></li>
                         <li class="breadcrumb-item active">Главная страница</li>
                     </ol>
                 </div><!-- /.col -->
@@ -35,8 +35,9 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Все продукты <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="
+                        {{ route('products.admin') }}" class="small-box-footer">Все
+                            продукты <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -51,7 +52,8 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Все заказы <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('orders.admin') }}" class="small-box-footer">Все заказы <i
+                                class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -66,7 +68,7 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Все пользователи <i
+                        <a href="{{ route('admin.users.index') }}" class="small-box-footer">Все пользователи <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
