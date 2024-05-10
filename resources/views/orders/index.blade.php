@@ -49,7 +49,7 @@
                                                     <td><form action="{{route('orders.destroy', $order->id)}}" method="post">
                                                         @csrf
                                                         @method('delete')
-                                                            <input type="submit" class="btn btn-danger" value="Подтвердить заказ">
+                                                            <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
                                                         </form></td>
                                                 </tr>
                                             @endif
