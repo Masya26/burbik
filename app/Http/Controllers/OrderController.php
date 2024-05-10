@@ -33,12 +33,11 @@ class OrderController extends Controller
         $user = auth()->user();
 
         // Находим корзину текущего пользователя
-        if($user = auth()->user()){
-        $cart = $user->orders()->where('status', 'korzina')->first();
-        } else{
+        if ($user = auth()->user()) {
+            $cart = $user->orders()->where('status', 'korzina')->first();
+        } else {
             return redirect()->route('login');
         }
-        // Если корзина не найдена, вы можете добавить логику для обработки этого случая
 
         // Если корзина не найдена или у нее нет незавершенных заказов, вернем пустую коллекцию продуктов
         if (!$cart || !$cart->products()->exists()) {
@@ -182,8 +181,6 @@ class OrderController extends Controller
             // Перенаправляем пользователя на страницу с подтверждением заказа или другую страницу
             return redirect()->route('index.welcome');
         } else {
-
-
         }
     }
     public function admin()
