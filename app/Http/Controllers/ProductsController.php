@@ -169,29 +169,32 @@ class ProductsController extends Controller
     public function addToCart(Request $request, Products $product)
     {
         // Получаем текущего пользователя
-        $user = auth()->user();
+        if ($user = auth()->user()) {
 
-        // Получаем корзину текущего пользователя
-        $korzina = $user->orders()->where('status', 'korzina')->where('completed', false)->firstOrCreate(['status' => 'korzina']);
+            // Получаем корзину текущего пользователя
+            $korzina = $user->orders()->where('status', 'korzina')->where('completed', false)->firstOrCreate(['status' => 'korzina']);
 
-        // Проверяем, есть ли товар уже в корзине пользователя
-        if ($korzina->products->contains($product->id)) {
-            // Увеличиваем количество товара в корзине на единицу
-            $productInCart = $korzina->products()->where('product_id', $product->id)->first();
-            $productInCart->pivot->update(['quantity' => $productInCart->pivot->quantity + 1]);
-            $product->decrement('count');
+            // Проверяем, есть ли товар уже в корзине пользователя
+            if ($korzina->products->contains($product->id)) {
+                // Увеличиваем количество товара в корзине на единицу
+                $productInCart = $korzina->products()->where('product_id', $product->id)->first();
+                $productInCart->pivot->update(['quantity' => $productInCart->pivot->quantity + 1]);
+                $product->decrement('count');
+            } else {
+                // Уменьшаем количество товара в базе данных на 1
+                $product->decrement('count');
+
+                // Добавляем товар в корзину пользователя с начальным количеством 1
+                $korzina->products()->attach($product->id, ['quantity' => 1]);
+            }
+
+            // После добавления в корзину
+            $redirectUrl = $request->input('redirect_url', route('index.welcome')); // Если нет указанного URL, то перенаправляем на главную страницу
+
+            return redirect($redirectUrl);
         } else {
-            // Уменьшаем количество товара в базе данных на 1
-            $product->decrement('count');
-
-            // Добавляем товар в корзину пользователя с начальным количеством 1
-            $korzina->products()->attach($product->id, ['quantity' => 1]);
+            return redirect()->route('login');
         }
-
-        // После добавления в корзину
-        $redirectUrl = $request->input('redirect_url', route('index.welcome')); // Если нет указанного URL, то перенаправляем на главную страницу
-
-        return redirect($redirectUrl);
     }
     public function search(Request $request)
     {
