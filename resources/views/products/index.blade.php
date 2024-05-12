@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Кол-во</th>
                                         <th>Наименование</th>
                                         <th>ID Категории</th>
                                         <th>Категория</th>
@@ -48,6 +49,7 @@
 
                                     <tr>
                                         <td>{{$product->id}}</td>
+                                        <td>{{$product->count}}</td>
                                         <td><a href="{{route('products.show', $product->id)}}">{{$product->name}}</a></td>
                                         <td>{{$product->category_id}}</td>
                                         <td>{{$product->category->title}}</td>
